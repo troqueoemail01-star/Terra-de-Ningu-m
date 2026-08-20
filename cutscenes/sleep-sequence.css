@@ -1,0 +1,31 @@
+/* cutscenes/sleep-sequence.css
+ * -------------------------------------------------
+ * Camada de fade (preto) usada pela sequência de dormir do quarto
+ * "MEU QUARTO" (ver cutscenes/sleep-sequence.js) — mesmo princípio
+ * visual de cutscenes/room-transition.css e phone-sequence.css: cobre
+ * só o #game-container (a mesma área 16:9 da gameplay), escondendo a
+ * passagem de noite para o dia seguinte sem o jogador nunca ver a
+ * troca em si (a câmera é reposicionada e a iluminação do quarto muda
+ * para manhã com a tela completamente preta).
+ *
+ * Uma única duração de transição serve tanto para o fade-in (a tela
+ * escurecendo depois da câmera terminar de "deitar") quanto para o
+ * fade-out (revelando a manhã seguinte) — o JS só alterna "opacity"
+ * entre 0 e 1, nessa ordem (ver FADE_HALF_MS em sleep-sequence.js — os
+ * dois valores precisam bater, hoje 1.8s cada metade: mais lento que os
+ * 0.9s originais, que faziam o jogador acordar num piscar).
+ * ------------------------------------------------- */
+
+.sleep-sequence-overlay {
+  position: absolute;
+  inset: 0;
+  /* Mesmo z-index dos outros overlays de fade do jogo — acima do
+     canvas/vinheta/scanlines e do HUD, embora os dois já fiquem
+     escondidos/travados durante a sequência inteira (ver
+     sleep-sequence.js). */
+  z-index: 20;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.8s ease;
+}

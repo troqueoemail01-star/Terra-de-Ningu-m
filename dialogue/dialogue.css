@@ -1,0 +1,106 @@
+/* dialogue/dialogue.css
+ * -------------------------------------------------
+ * Aparência da caixa de diálogo, usada pela mini cutscene de
+ * entrada e reaproveitável por qualquer diálogo futuro do jogo.
+ * Mesma linguagem visual discreta do resto da interface (ver
+ * interface/hud.css e cutscenes/cutscene.css), com a fonte
+ * pixelada fornecida só para o texto falado.
+ * ------------------------------------------------- */
+
+@font-face {
+  font-family: "BoldsPixels";
+  src: url("../assets/fonts/BoldsPixels.ttf") format("truetype");
+  font-display: swap;
+}
+
+.dialogue-box {
+  position: absolute;
+  left: 50%;
+  bottom: 6vmin;
+  transform: translateX(-50%);
+  width: 84%;
+  min-height: 11vmin;
+  box-sizing: border-box;
+  padding: 2.2vmin 3vmin;
+  background: rgba(5, 4, 8, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1vmin;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.dialogue-box-visible {
+  opacity: 1;
+}
+
+/* Botão "PULAR TUDO" (ver dialogue/dialogue-box.js): colado no canto
+   superior direito, por FORA da área de texto — assim nunca fica
+   embaixo de uma fala comprida sendo digitada. Ao contrário do botão
+   de pular da cutscene de introdução (cutscenes/cutscene.css), que
+   aparece/some a cada toque, este fica sempre visível de propósito
+   enquanto a caixa está na tela: é um atalho pensado para agilizar
+   testes durante o desenvolvimento, não uma opção discreta para o
+   jogador final. Mesma linguagem visual (cor, fonte, bordas) do botão
+   da cutscene, só reposicionado e sem a transição de aparecer/sumir. */
+.dialogue-skip-button {
+  position: absolute;
+  top: -4.6vmin;
+  right: 0;
+  z-index: 11;
+  padding: 0.9vmin 2.2vmin;
+  border-radius: 1.2vmin;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.55);
+  font-family: monospace;
+  font-size: 1.6vmin;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.dialogue-skip-button:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.dialogue-text {
+  font-family: "BoldsPixels", monospace;
+  font-size: 2.5vmin;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  white-space: pre-wrap;
+}
+
+/* "Nome:" em amarelo — padrão a ser reaproveitado por todo diálogo
+   futuro do jogo (ver dialogue/dialogue-box.js). */
+.dialogue-name {
+  color: #ffd447;
+}
+
+/* Restante da fala em branco. */
+.dialogue-message {
+  color: #ffffff;
+}
+
+/* Indicador discreto de "toque para continuar" — só aparece depois
+   que a frase termina de ser digitada (classe aplicada pelo JS). */
+.dialogue-indicator {
+  position: absolute;
+  right: 2.6vmin;
+  bottom: 1.6vmin;
+  font-family: "BoldsPixels", monospace;
+  font-size: 2vmin;
+  color: rgba(255, 255, 255, 0.6);
+  display: none;
+}
+
+.dialogue-box-waiting .dialogue-indicator {
+  display: block;
+  animation: dialogue-indicator-blink 1s steps(2, start) infinite;
+}
+
+@keyframes dialogue-indicator-blink {
+  50% {
+    opacity: 0.15;
+  }
+}

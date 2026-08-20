@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+  />
+  <title>Corredor: prototipo de terror PSX</title>
+
+  <!-- Suporte a tela cheia: cobre o caso em que a Fullscreen API de
+       JavaScript nao existe de verdade (ex.: Safari no iOS fora do
+       modo "adicionado a Tela de Inicio"). Ver
+       scripts/fullscreen-manager.js para a estrategia completa. -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <link rel="stylesheet" href="interface/layout.css" />
+  <link rel="stylesheet" href="interface/hud.css" />
+  <link rel="stylesheet" href="menu/menu.css" />
+  <link rel="stylesheet" href="menu/settings.css" />
+  <link rel="stylesheet" href="cutscenes/road-cutscene.css" />
+  <link rel="stylesheet" href="cutscenes/phone-sequence.css" />
+  <link rel="stylesheet" href="cutscenes/room-transition.css" />
+  <link rel="stylesheet" href="cutscenes/sleep-sequence.css" />
+  <link rel="stylesheet" href="dialogue/dialogue.css" />
+  <!-- Casca visual compartilhada por todo pop-up do jogo e o conteudo
+       do pop-up da gaveta (ver interface/popup.js e
+       interface/drawer-popup.js) -->
+  <link rel="stylesheet" href="interface/popup.css" />
+  <!-- Layout do pop-up de leitura da carta: modelo 3D a esquerda,
+       texto a direita (ver interface/note-reader.js) -->
+  <link rel="stylesheet" href="interface/note-reader.css" />
+  <!-- Interface do modo EDITOR (ferramenta de desenvolvimento, ver
+       editor/README.md). Tambem traz o visual do botao EDITOR do menu
+       inicial. Nao interfere em nada do jogo: todas as regras sao
+       prefixadas com .editor- / .main-menu-dev- -->
+  <link rel="stylesheet" href="editor/editor.css" />
+</head>
+<body>
+  <div id="viewport">
+    <div id="game-container">
+      <canvas id="game-canvas"></canvas>
+      <div class="psx-vignette"></div>
+      <div class="psx-scanlines"></div>
+      <!-- O HUD (analogico, area de camera, botao Interagir,
+           inventario) e criado dinamicamente por interface/hud.js
+           dentro deste container, para ficar sempre alinhado ao jogo
+           em 16:9. -->
+    </div>
+  </div>
+
+  <!-- Aviso "gire seu dispositivo": fallback em CSS puro (ver
+       interface/layout.css) para quando a Screen Orientation Lock API
+       nao existe de verdade na plataforma (ex.: Safari/iOS). -->
+  <div id="rotate-device-overlay">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#d8cba8" stroke-width="1.5">
+      <rect x="6" y="2" width="12" height="20" rx="2" />
+      <line x1="10" y1="19" x2="14" y2="19" />
+    </svg>
+    <p>GIRE SEU DISPOSITIVO<br />PARA JOGAR</p>
+  </div>
+
+  <script src="scripts/orientation-manager.js"></script>
+  <script src="scripts/fullscreen-manager.js"></script>
+  <script src="scripts/game-settings.js"></script>
+  <script src="scripts/atmosphere.js"></script>
+
+  <!-- Motor 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- Descompressor Draco para o GLTFLoader (mesma versao do three.js
+       acima, mesmo CDN). Seis modelos do jogo precisam dele - seis das
+       SETE pecas da COZINHA (o microondas, a setima, chegou com a
+       geometria crua e nao passa por aqui, ver
+       models/microwave-factory.js): o fogao (ver models/stove-factory.js), o botijao de gas
+       (ver models/gas-cylinder-factory.js), a geladeira (ver
+       models/fridge-factory.js), a mesa de frutas (ver
+       models/fruit-table-factory.js), a pia com armario (ver
+       models/sink-cabinet-factory.js) e a prateleira (ver
+       models/shelf-factory.js), cujas geometrias chegaram
+       comprimidas em Draco (KHR_draco_mesh_compression). Nao e um segundo sistema de
+       import: e o MESMO GLTFLoader, so com a extensao habilitada, e o
+       decodificador em si so e baixado quando aqueles .glb carregam. Os
+       outros modelos de assets/models sao crus e nao passam por aqui. -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/DRACOLoader.js"></script>
+
+  <!-- Pos-processamento -->
+  <script src="effects/motion-blur.js"></script>
+
+  <!-- Poeira suspensa no ar dos comodos internos (ver
+       effects/dust-motes.js). Nao e pos-processamento: sao particulas
+       de verdade dentro do mundo 3D, um volume por comodo. Criada em
+       scripts/main.js, depois das zonas da casa. -->
+  <script src="effects/dust-motes.js"></script>
+
+  <!-- O CLARÃO da tempestade: o relâmpago que entra pelas janelas de
+       noite (ver effects/lightning-storm.js). Vem ANTES das fábricas e
+       das cenas porque as duas se registram nele: cada janela na
+       construção (models/window-factory.js) e a cena do corredor, que
+       cria a única luz de clarão do jogo (scenes/corridor-scene.js). -->
+  <script src="effects/lightning-storm.js"></script>
+
+  <!-- Dados de cena -->
+  <script src="scenes/corridor-config.js"></script>
+  <script src="scenes/room-config.js"></script>
+  <script src="scenes/house-config.js"></script>
+
+  <!-- Texturas e materiais -->
+  <script src="materials/textures.js"></script>
+  <!-- Tecnicas de imagem PSX (snap de vertice, textura afim e dither)
+       usadas SO pela cutscene de abertura na estrada. Ver
+       materials/psx-cutscene-material.js. -->
+  <script src="materials/psx-cutscene-material.js"></script>
+  <!-- Zona de luz: a claridade de cada luminaria para na parede do
+       comodo dela, sem shadow map. Ver materials/light-zones.js. Vem
+       ANTES da biblioteca de materiais so por leitura; quem chama e
+       scripts/main.js. -->
+  <script src="materials/light-zones.js"></script>
+  <script src="materials/material-library.js"></script>
+
+  <!-- Fabricas de objetos 3D -->
+  <script src="models/outline-factory.js"></script>
+  <script src="models/cable-factory.js"></script>
+  <script src="models/sign-factory.js"></script>
+  <script src="models/door-factory.js"></script>
+  <script src="models/lamp-factory.js"></script>
+  <script src="models/picture-factory.js"></script>
+  <script src="models/poster-factory.js"></script>
+  <script src="models/switch-factory.js"></script>
+  <script src="models/window-glass-factory.js"></script>
+  <script src="models/window-factory.js"></script>
+  <script src="models/exterior-factory.js"></script>
+  <!-- Telhado da casa: a casca externa que fecha o conjunto de
+       comodos por cima (ver models/roof-factory.js). Depende de
+       CorridorConfig/RoomConfig/HouseConfig (carregados acima) e
+       dos materiais roof* de materials/material-library.js. -->
+  <script src="models/roof-factory.js"></script>
+  <script src="models/porch-factory.js"></script>
+
+  <!-- As QUATRO pecas decorativas da varanda da entrada (planta, cadeira
+       de plastico, churrasqueira e varal com roupa): modelos .glb
+       enviados pelo jogador, carregados pelo MESMO GLTFLoader de todos os
+       outros modelos do jogo. As tres primeiras usam Draco (o <script>
+       dele ja esta aqui por causa do fogao); a churrasqueira nao usa.
+       Ver models/porch-plant-factory.js (a documentacao completa do
+       caminho), models/plastic-chair-factory.js,
+       models/barbecue-grill-factory.js e models/clothesline-factory.js.
+       Precisam vir DEPOIS do GLTFLoader/DRACOLoader e ANTES de
+       scenes/corridor-scene.js, que e quem posiciona as quatro. -->
+  <script src="models/porch-plant-factory.js"></script>
+  <script src="models/plastic-chair-factory.js"></script>
+  <script src="models/barbecue-grill-factory.js"></script>
+  <script src="models/clothesline-factory.js"></script>
+  <!-- ======== As DOZE pecas do QUINTAL LATERAL DIREITO ========
+       Os quatro pacotes .glb que o jogador enviou nesta rodada (lixo,
+       jardim, madeira e o medidor de energia), encostados na parede
+       lateral direita, do lado de FORA da casa. Todas entraram pelo MESMO
+       caminho das pecas da varanda e dos comodos: um .glb em assets/models
+       importado pelo MESMO GLTFLoader, uma fabrica aqui embaixo e uma
+       linha na lista `sideYard.props` de scenes/corridor-config.js.
+       Nenhum carregador novo, nenhum shader novo, nenhum segundo
+       three.js - foi o pedido.
+
+       Tres dos quatro pacotes vinham com varias pecas COLADAS num modelo
+       so, e cada uma entrou como MODELO INDIVIDUAL (uma fabrica, um .glb,
+       um nome proprio no Editor), para o jogador poder mexer em cada uma
+       separadamente. Todas decorativas, sem interacao.
+
+       Nenhuma usa Draco (geometria crua) e todas trazem a textura PSX
+       embutida no proprio .glb, entao nada precisou mudar no bloco do
+       motor 3D la em cima. Precisam vir DEPOIS do GLTFLoader e ANTES de
+       scenes/corridor-scene.js, que e quem posiciona as doze. -->
+  <!-- Pacote de lixo (psx-trash-pack): caixote, lata e tres sacos. Ver
+       models/dumpster-factory.js para a documentacao completa do pacote.
+       CUIDADO: TrashCanFactory (mais acima) e OUTRA peca, a lixeirinha de
+       dentro do MEU QUARTO. -->
+  <script src="models/dumpster-factory.js"></script>
+  <script src="models/yard-trash-can-factory.js"></script>
+  <script src="models/trash-bag-a-factory.js"></script>
+  <script src="models/trash-bag-b-factory.js"></script>
+  <script src="models/trash-bag-c-factory.js"></script>
+  <!-- Pacote de jardim (psx-garden-pack): montinho de terra, vaso de
+       samambaia e a galinha porta-ferramentas. Geometria quantizada
+       (KHR_mesh_quantization), que o GLTFLoader do r128 le nativamente -
+       o jogo ja tinha um modelo assim na cadeira do MEU QUARTO. Ver
+       models/dirt-mound-factory.js. -->
+  <script src="models/dirt-mound-factory.js"></script>
+  <script src="models/fern-pot-factory.js"></script>
+  <script src="models/chicken-toolpot-factory.js"></script>
+  <!-- Pacote de madeira (psx-wood-pack): pilha de lenha, gravetos e o
+       machado no toco. Ver models/woodpile-factory.js. -->
+  <script src="models/woodpile-factory.js"></script>
+  <script src="models/branches-factory.js"></script>
+  <script src="models/axe-stump-factory.js"></script>
+  <!-- Medidor de energia (medidor_energia_psx): a unica peca PENDURADA na
+       parede, e a primeira do jogo com AO assada em COLOR_0. Ver
+       models/power-meter-factory.js. -->
+  <script src="models/power-meter-factory.js"></script>
+  <!-- ======== O CARRO DO QUINTAL DOS FUNDOS ========
+       O modelo .glb enviado pelo jogador nesta rodada (VW Golf Mk4 em
+       versao PSX), estacionado no gramado ATRAS da casa como peca
+       puramente decorativa. Entrou pelo MESMO caminho de todos os outros
+       modelos do jogo: um .glb em assets/models importado pelo MESMO
+       GLTFLoader, uma fabrica em models/ e uma linha em `backYard.props`
+       (scenes/corridor-config.js). Nenhum carregador novo, nenhum shader
+       novo, nenhum segundo three.js - foi o pedido.
+
+       Nao passa pelo DRACOLoader (a geometria chega CRUA, como a do
+       microondas e a das doze pecas do quintal lateral) e a textura PSX ja
+       vem embutida no proprio .glb, entao nada mudou no bloco do motor 3D
+       la em cima. O material vem marcado como "Unlit" no arquivo, o que
+       faria o carro brilhar sozinho no escuro - a fabrica troca esse
+       material pelo MeshStandard do resto do jogo com a MESMA funcao que a
+       TV, o microondas e a lixeira grande ja usam (ver
+       models/tv-factory.js).
+
+       CUIDADO com o nome: models/car-interior-factory.js (mais abaixo) e
+       OUTRA peca - a cabine em primeira pessoa da cutscene da estrada.
+       Precisa vir DEPOIS do GLTFLoader e ANTES de
+       scenes/corridor-scene.js, que e quem posiciona o carro. -->
+  <script src="models/car-factory.js"></script>
+  <!-- ======== O GALPAO DO QUINTAL DOS FUNDOS ========
+       O pequeno galpao/armazem PSX que o jogador enviou nesta rodada, no
+       gramado ATRAS da casa, um pouco afastado dela - peca decorativa, como o
+       carro. Ver models/shed-factory.js.
+
+       Este pacote nao e um .glb: e CODIGO que monta a geometria e pinta as
+       texturas em canvas na hora. Ou seja, nao passa pelo GLTFLoader, nao
+       precisa do DRACOLoader e nao tem uma unica imagem para baixar - nada
+       mudou no bloco do motor 3D la em cima por causa dele. O runtime PSX que
+       veio no pacote (ShaderMaterial com luz e nevoa proprias) NAO entrou,
+       pelo mesmo motivo do carro e da planta da varanda: seria um segundo
+       sistema de material em paralelo ao do jogo, cego para as luzes da cena e
+       para o amanhecer. Sobre a geometria do pacote entram os materiais do
+       jogo (MeshStandard de noite, MeshBasic de dia).
+
+       As DUAS trocas pedidas: o piso de cimento do pacote virou a MESMA
+       madeira do chao da casa (PsxTextures.createWoodTexture, com a tabua do
+       mesmo tamanho em metros que a de dentro), e as duas folhas de taboas
+       viraram o MODELO DE PORTA DO JOGO - por isso esta fabrica precisa vir
+       DEPOIS de models/door-factory.js (que ja esta bem acima) e ANTES de
+       scenes/corridor-scene.js, que e quem posiciona o galpao. -->
+  <script src="models/shed-factory.js"></script>
+  <!-- Canteiros de flores do quintal da frente (ver
+       models/flower-bed-factory.js): as ~220 flores dos dois quintais
+       assadas numa unica malha. Depende de PorchFactory (acima), que
+       entrega os retangulos dos quintais. -->
+  <script src="models/flower-bed-factory.js"></script>
+  <!-- Pichacao da fachada (ver models/graffiti-factory.js): a frase
+       desenhada a mao livre num canvas, como a placa das portas, mas sem
+       nenhuma fonte - ver o topo do arquivo. -->
+  <script src="models/graffiti-factory.js"></script>
+  <script src="models/grass-field-factory.js"></script>
+  <script src="models/tree-forest-factory.js"></script>
+  <script src="models/fog-volume-factory.js"></script>
+  <!-- CHUVA da vista externa (ver models/rain-factory.js): a quinta
+       camada do lado de fora das janelas, empilhada nas quatro acima
+       (chao, grama, mata e neblina) e feita pela MESMA tecnica delas:
+       geometria de verdade plantada no mundo, animada inteira no vertex
+       shader, sem nenhuma biblioteca nova e sem nenhum arquivo de imagem
+       para baixar. Chove de dia E de noite, sempre. Precisa vir ANTES de
+       scenes/corridor-scene.js e scenes/room-scene.js, que sao quem
+       posicionam os volumes de chuva. -->
+  <script src="models/rain-factory.js"></script>
+  <script src="models/dirt-path-factory.js"></script>
+  <!-- Os DOIS modelos da cutscene de abertura: a estrada de terra em
+       looping (usa o MESMO GLTFLoader de sempre, mais o
+       arvores_psx.glb que a floresta das janelas ja usava) e a cabine
+       do carro em primeira pessoa (geometria feita em codigo, sem
+       arquivo). Precisam vir depois do GLTFLoader e de
+       materials/psx-cutscene-material.js. -->
+  <script src="models/road-loop-factory.js"></script>
+  <script src="models/car-interior-factory.js"></script>
+  <script src="models/sky-factory.js"></script>
+  <script src="models/vase-factory.js"></script>
+  <script src="models/phone-factory.js"></script>
+  <script src="models/clock-factory.js"></script>
+  <script src="models/book-factory.js"></script>
+  <script src="models/paper-note-factory.js"></script>
+  <script src="models/desk-factory.js"></script>
+  <script src="models/carpet-factory.js"></script>
+  <script src="models/potted-plant-factory.js"></script>
+  <script src="models/bed-factory.js"></script>
+  <script src="models/nightstand-factory.js"></script>
+  <script src="models/table-lamp-factory.js"></script>
+  <script src="models/bookshelf-factory.js"></script>
+  <script src="models/trophy-factory.js"></script>
+
+  <!-- As DOZE pecas decorativas novas de MEU QUARTO (seis pacotes .glb
+       enviados pelo jogador: mesa de xadrez, cadeira de balanco, plantas,
+       mesa de canto, mesa de taverna com as 5 garrafas e o sofa). A mesa de
+       taverna vinha com as garrafas COLADAS nela e o sofa vinha em formato
+       proprio (.psxm): as garrafas viraram 6 modelos separados e o sofa virou
+       .glb, para tudo entrar pelo MESMO GLTFLoader de sempre e cada peca dar
+       para mexer sozinha no Editor. Ver models/tavern-table-factory.js e
+       models/sofa-factory.js. Sao so decorativas, sem interacao. Quem
+       posiciona e RoomConfig.props (scenes/room-config.js). -->
+  <script src="models/chess-table-factory.js"></script>
+  <script src="models/rocking-chair-factory.js"></script>
+  <script src="models/plant-bed-factory.js"></script>
+  <script src="models/round-pot-factory.js"></script>
+  <script src="models/side-table-factory.js"></script>
+  <script src="models/tavern-table-factory.js"></script>
+  <script src="models/tavern-bottle-01-factory.js"></script>
+  <script src="models/tavern-bottle-02-factory.js"></script>
+  <script src="models/tavern-bottle-03-factory.js"></script>
+  <script src="models/tavern-bottle-04-factory.js"></script>
+  <script src="models/tavern-bottle-05-factory.js"></script>
+  <script src="models/sofa-factory.js"></script>
+  <script src="models/wardrobe-factory.js"></script>
+  <script src="models/cardboard-box-factory.js"></script>
+  <script src="models/trash-can-factory.js"></script>
+  <script src="models/floor-plant-factory.js"></script>
+  <script src="models/chair-factory.js"></script>
+  <script src="models/soccer-ball-factory.js"></script>
+  <script src="models/tabletv-factory.js"></script>
+  <script src="models/tv-factory.js"></script>
+  <script src="models/radio-factory.js"></script>
+  <script src="models/outlet-factory.js"></script>
+  <script src="models/ceiling-fan-factory.js"></script>
+  <!-- Fogao da COZINHA (ver models/stove-factory.js): .glb importado
+       pelo mesmo GLTFLoader dos outros modelos, com o DRACOLoader
+       carregado acima. -->
+  <script src="models/stove-factory.js"></script>
+  <!-- Botijao de gas da COZINHA (ver models/gas-cylinder-factory.js):
+       mesmo caso do fogao acima - .glb importado pelo mesmo GLTFLoader,
+       com o DRACOLoader carregado no bloco do motor 3D. Peca so
+       decorativa. -->
+  <script src="models/gas-cylinder-factory.js"></script>
+  <!-- Geladeira da COZINHA (ver models/fridge-factory.js): mesmo caso
+       das duas de cima - .glb importado pelo mesmo GLTFLoader, com o
+       DRACOLoader carregado no bloco do motor 3D. Peca so decorativa,
+       sem interacao. -->
+  <script src="models/fridge-factory.js"></script>
+  <!-- Mesa com frutas da COZINHA (ver models/fruit-table-factory.js):
+       mesmo caso das tres de cima - .glb importado pelo mesmo
+       GLTFLoader, com o DRACOLoader carregado no bloco do motor 3D.
+       Primeiro modelo com as texturas em WebP (EXT_texture_webp, que o
+       GLTFLoader le desde o r122: nada novo precisou entrar aqui).
+       Peca so decorativa, sem interacao. -->
+  <script src="models/fruit-table-factory.js"></script>
+  <!-- Pia com armario da COZINHA (ver models/sink-cabinet-factory.js):
+       mesmo caso das quatro de cima - .glb importado pelo mesmo
+       GLTFLoader, com o DRACOLoader carregado no bloco do motor 3D. O
+       pacote deste modelo trouxe a textura PSX solta ao lado do .glb
+       (geometria e imagem em arquivos separados), e ela foi embutida no
+       proprio .glb, como no botijao: um arquivo so, um caminho de codigo
+       so, nada de TextureLoader avulso aqui. Peca so decorativa, sem
+       interacao. -->
+  <script src="models/sink-cabinet-factory.js"></script>
+  <!-- Prateleira da COZINHA (ver models/shelf-factory.js): mesmo caso das
+       cinco de cima - .glb importado pelo mesmo GLTFLoader, com o
+       DRACOLoader carregado no bloco do motor 3D. O pacote deste modelo
+       trouxe a textura PSX solta ao lado do .glb (e as PBR originais
+       dentro dele), e foi a PSX que entrou, embutida no proprio .glb como
+       no botijao e na pia: um arquivo so, um caminho de codigo so. Peca so
+       decorativa, sem interacao. -->
+  <script src="models/shelf-factory.js"></script>
+  <!-- Microondas da COZINHA (ver models/microwave-factory.js): mesmo caso
+       das seis de cima - um .glb de assets/models importado pelo MESMO
+       GLTFLoader, sem nenhum carregador novo. Duas diferencas, as duas
+       resolvidas dentro da fabrica: a geometria deste arquivo chega CRUA
+       (entao ele nao passa pelo DRACOLoader e nada precisou mudar no bloco
+       do motor 3D por causa dele) e o material dele vem marcado como
+       "Unlit" no proprio .glb, o que faria o aparelho brilhar sozinho num
+       comodo escuro - a fabrica troca esse material pelo MeshStandard do
+       resto do jogo com a mesma funcao que a TV do quarto ja usa (ver
+       models/tv-factory.js). Peca so decorativa, sem interacao. -->
+  <script src="models/microwave-factory.js"></script>
+  <!-- Filtro de barro da COZINHA (ver models/clay-filter-factory.js):
+       mesmo caso das sete de cima - um .glb de assets/models importado pelo
+       MESMO GLTFLoader, com o DRACOLoader carregado no bloco do motor 3D (a
+       geometria deste chega comprimida em Draco, como a das cinco primeiras
+       pecas da cozinha). O pacote deste modelo trouxe a textura PSX solta ao
+       lado do .glb - que, por sua vez, chegou sem material nenhum -, e ela
+       foi embutida no proprio .glb como no botijao, na pia e na prateleira:
+       um arquivo so, um caminho de codigo so, nada de TextureLoader avulso
+       aqui. Peca so decorativa, sem interacao. -->
+  <script src="models/clay-filter-factory.js"></script>
+  <script src="models/bottle-glass-factory.js"></script>
+  <!-- Radio portatil da COZINHA (ver models/portable-radio-factory.js):
+       mesmo caso das nove de cima - um .glb de assets/models importado pelo
+       MESMO GLTFLoader, sem nenhum carregador novo. Nao passa pelo
+       DRACOLoader (a geometria deste chega CRUA, como a do microondas) e o
+       material dele vem marcado como "Unlit" no proprio .glb, o que faria o
+       aparelho brilhar sozinho num comodo escuro - a fabrica troca esse
+       material pelo MeshStandard do resto do jogo com a mesma funcao que a
+       TV do quarto e o microondas ja usam (ver models/tv-factory.js). A
+       textura PSX (128x128) ja chegou embutida no proprio .glb, entao nao
+       tem TextureLoader avulso aqui. O modulo js/psx-material.js que veio
+       no pacote do modelo NAO entrou: e um modulo ES com shader, luz e fog
+       proprios, ou seja, um segundo sistema de material em paralelo ao do
+       jogo - ver o bloco "O js/psx-material.js do pacote NAO foi usado" na
+       fabrica. Cuidado com o nome: RadioFactory (mais acima) e OUTRA peca,
+       o radio de mao do MEU QUARTO. Peca so decorativa, sem interacao. -->
+  <script src="models/portable-radio-factory.js"></script>
+
+  <!-- ======== As SEIS pecas do BANHEIRO ========
+       Ultimo dos quatro comodos novos a sair da caixa vazia. As seis
+       chegaram em pacotes de conversao PSX e entraram pelo MESMO caminho
+       das dez da COZINHA: um .glb em assets/models importado pelo MESMO
+       GLTFLoader, uma fabrica aqui embaixo e uma lista nos dados do
+       comodo (ver scenes/house-config.js). Nenhum carregador novo,
+       nenhum shader novo, nenhum segundo three.js - foi o pedido. Todas
+       decorativas, sem interacao.
+
+       Quatro delas (privada, toalha, box e cesto) chegam com a geometria
+       comprimida em Draco e usam o MESMO DRACOLoader carregado no bloco
+       do motor 3D, la em cima; as outras duas (pia e espelheira) chegam
+       com a geometria CRUA, como o microondas e o radio portatil, e nao
+       passam por ele. Nada precisou mudar no bloco do motor 3D por causa
+       deste comodo. -->
+  <!-- Pia de coluna do BANHEIRO (ver models/bathroom-sink-factory.js).
+       CUIDADO: SinkCabinetFactory, mais acima, e OUTRA peca - a pia com
+       armario da COZINHA. Geometria crua; o pacote deste modelo nao
+       trouxe .glb nenhum (a malha vinha embutida em base64 dentro de um
+       .js), entao os MESMOS buffers foram gravados num .glb padrao, sem
+       mexer em um vertice - ver o bloco "Como este .glb foi montado" na
+       fabrica. -->
+  <script src="models/bathroom-sink-factory.js"></script>
+  <!-- Privada do BANHEIRO (ver models/toilet-factory.js): .glb com
+       geometria Draco e a textura PSX ja embutida pelo proprio pacote,
+       copiado byte a byte. O material vinha marcado como "Unlit", o que
+       faria a peca brilhar sozinha num comodo escuro - a fabrica troca
+       esse material pelo MeshStandard do resto do jogo com a MESMA funcao
+       que a TV do quarto, o microondas e o radio portatil ja usam (ver
+       models/tv-factory.js). -->
+  <script src="models/toilet-factory.js"></script>
+  <!-- Espelheira do BANHEIRO (ver models/mirror-cabinet-factory.js):
+       geometria crua, textura PSX ja embutida no .glb do pacote. Primeira
+       peca do jogo PENDURADA NA PAREDE, pelo campo `elevation` dos dados
+       do comodo (ver scenes/side-room-scene.js). -->
+  <script src="models/mirror-cabinet-factory.js"></script>
+  <!-- Toalha do BANHEIRO (ver models/towel-factory.js): geometria Draco;
+       o pacote trouxe a textura PSX solta ao lado do .glb (e as PBR
+       originais em WebP dentro dele), e foi a PSX que entrou, embutida no
+       proprio .glb como no botijao, na pia da cozinha e no filtro de
+       barro. Tambem PENDURADA pelo `elevation`. -->
+  <script src="models/towel-factory.js"></script>
+  <!-- Box de chuveiro do BANHEIRO (ver models/shower-box-factory.js):
+       geometria Draco, textura PSX embutida no .glb aqui. E a unica peca
+       do jogo cuja identidade foi DEDUZIDA (o pacote veio chamado so de
+       "banheiro") - ver o bloco de mesmo nome na fabrica. -->
+  <script src="models/shower-box-factory.js"></script>
+  <!-- Cesto de roupa do BANHEIRO (ver
+       models/laundry-basket-factory.js): geometria Draco, textura PSX
+       embutida no .glb aqui. -->
+  <script src="models/laundry-basket-factory.js"></script>
+
+  <!-- Construcao da cena -->
+  <script src="scenes/corridor-scene.js"></script>
+  <script src="scenes/room-scene.js"></script>
+  <!-- Os quatro comodos novos (QUARTO 01, QUARTO 02, COZINHA e
+       BANHEIRO): um construtor so para os quatro, ver o topo do
+       arquivo. Depende de DoorFactory/ExteriorFactory (acima) e de
+       HouseWorld, que so e usado dentro de build(). -->
+  <script src="scenes/side-room-scene.js"></script>
+
+  <!-- Interface tocavel -->
+  <script src="interface/inventory.js"></script>
+  <script src="interface/hud.js"></script>
+
+  <!-- Pop-ups -->
+  <script src="interface/popup.js"></script>
+  <script src="interface/drawer-popup.js"></script>
+  <script src="models/note-viewer.js"></script>
+  <script src="interface/note-reader.js"></script>
+  <script src="scripts/hand-item.js"></script>
+
+  <!-- Audio -->
+  <script src="audio/footstep-audio.js"></script>
+  <script src="audio/phone-audio.js"></script>
+  <script src="audio/curtain-audio.js"></script>
+  <script src="audio/road-cutscene-audio.js"></script>
+
+  <!-- Logica de jogo -->
+  <script src="scripts/collision.js"></script>
+  <script src="scripts/house-world.js"></script>
+  <script src="scripts/player-controller.js"></script>
+  <script src="scripts/ball-controller.js"></script>
+  <script src="scripts/interaction-system.js"></script>
+
+  <!-- Sistema de dialogo -->
+  <script src="dialogue/dialogue-config.js"></script>
+  <script src="dialogue/dialogue-box.js"></script>
+
+  <!-- Sistema de objetivos -->
+  <script src="objectives/objective-config.js"></script>
+  <script src="objectives/objective-system.js"></script>
+
+  <!-- Menu principal -->
+  <script src="menu/menu.js"></script>
+  <script src="menu/settings.js"></script>
+
+  <!-- Cutscenes -->
+  <script src="cutscenes/road-cutscene.js"></script>
+  <script src="cutscenes/entry-sequence.js"></script>
+  <script src="cutscenes/phone-sequence.js"></script>
+  <script src="cutscenes/room-transition.js"></script>
+  <script src="cutscenes/sleep-sequence.js"></script>
+
+  <!-- ======== EDITOR (ferramenta de desenvolvimento) ========
+       Camada de edicao/debug que roda POR CIMA do jogo, usando a
+       mesma cena, a mesma camera, o mesmo renderer e os mesmos
+       modelos Three.js ja carregados acima: nenhum sistema 3D
+       paralelo. Ver editor/README.md para o mapa completo.
+
+       Ordem obrigatoria: dados, registro, pecas (camera, gizmo,
+       historico), widgets, paineis, casca e cerebro.
+
+       Os dois primeiros tambem servem ao JOGO NORMAL, nao so ao
+       Editor: sao eles que aplicam as alteracoes salvas por cima dos
+       cenarios originais no boot, sempre (ver scripts/main.js). Por
+       isso precisam vir antes de main.js. -->
+  <script src="editor/editor-filesystem.js"></script>
+  <script src="editor/editor-overrides.js"></script>
+  <script src="editor/editor-registry.js"></script>
+  <script src="editor/editor-clones.js"></script>
+  <script src="editor/editor-textures.js"></script>
+  <script src="editor/editor-camera.js"></script>
+  <script src="editor/editor-gizmo.js"></script>
+  <script src="editor/editor-history.js"></script>
+  <script src="editor/editor-widgets.js"></script>
+  <script src="editor/editor-hierarchy.js"></script>
+  <script src="editor/editor-inspector.js"></script>
+  <script src="editor/editor-ui.js"></script>
+  <script src="editor/editor-mode.js"></script>
+
+  <!-- Bootstrap: menu inicial, cutscene e, ao final dela, a gameplay -->
+  <script src="scripts/main.js"></script>
+</body>
+</html>

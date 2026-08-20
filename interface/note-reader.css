@@ -1,0 +1,125 @@
+/* interface/note-reader.css
+ * -------------------------------------------------
+ * Pop-up de leitura da carta (ver interface/note-reader.js): modelo
+ * 3D a esquerda, texto a direita, botao discreto "Fechar" no canto.
+ *
+ * Toda a casca (fundo, painel, botao Fechar) vem de
+ * interface/popup.css — aqui so entra o layout de duas colunas e a
+ * tipografia do texto da carta. Medidas em vmin, como no resto da
+ * interface, e pensadas para a orientacao landscape 16:9 do jogo.
+ * ------------------------------------------------- */
+
+.note-reader .game-popup-panel {
+  width: 88vmin;
+  max-width: 92%;
+  height: 72vmin;
+  max-height: 88%;
+}
+
+/* O corpo do pop-up vira um flex container para as duas colunas
+   poderem ocupar a altura toda do painel sem depender de height:100%
+   (mais seguro em WebView antiga). */
+.note-reader .game-popup-body {
+  display: flex;
+  min-height: 0;
+}
+
+.note-reader-layout {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 2.6vmin;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ---------- Coluna da esquerda: modelo 3D ---------- */
+.note-reader-model {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2vmin;
+  min-width: 0;
+
+  padding: 1.2vmin;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.8vmin;
+}
+
+/* Tamanho fixo na MESMA proporcao do buffer interno (192x216, ver
+   models/note-viewer.js): 26 x 29.25vmin. Deixar o navegador deduzir a
+   proporcao dentro de um flex column da resultado diferente em cada
+   WebView; com as duas medidas escritas, o modelo nunca sai esticado.
+   O pixelated preserva o pixel cru do resto do jogo ao ampliar. */
+.note-reader-canvas {
+  flex: 0 0 auto;
+  width: 26vmin;
+  height: 29.25vmin;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  cursor: grab;
+}
+
+.note-reader-canvas:active {
+  cursor: grabbing;
+}
+
+.note-reader-hint {
+  flex: 0 0 auto;
+  margin: 0;
+  font-family: "BoldsPixels", monospace;
+  font-size: 1.4vmin;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.34);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ---------- Coluna da direita: texto da carta ---------- */
+.note-reader-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding-right: 1.2vmin;
+  overflow-y: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+
+  font-family: "BoldsPixels", monospace;
+  font-size: 1.95vmin;
+  line-height: 1.75;
+  letter-spacing: 0.015em;
+  color: #ede8da;
+}
+
+/* Barra de rolagem discreta (so aparece se o texto nao couber). */
+.note-reader-text::-webkit-scrollbar {
+  width: 0.6vmin;
+}
+
+.note-reader-text::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 0.3vmin;
+}
+
+.note-reader-heading {
+  margin: 0 0 1.4vmin;
+  color: #ffd447;
+  font-size: 2.2vmin;
+  letter-spacing: 0.04em;
+}
+
+.note-reader-paragraph {
+  margin: 0 0 1.3vmin;
+}
+
+.note-reader-signature {
+  margin: 2vmin 0 0;
+  text-align: right;
+  color: #cfc7b2;
+}

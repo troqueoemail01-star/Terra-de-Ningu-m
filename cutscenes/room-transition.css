@@ -1,0 +1,29 @@
+/* cutscenes/room-transition.css
+ * -------------------------------------------------
+ * Camada de fade (preto) usada pela transição genérica de cenário ao
+ * atravessar uma porta que leva a um novo ambiente (ver
+ * cutscenes/room-transition.js) — mesmo princípio visual de
+ * cutscenes/phone-sequence.css (cobre só o #game-container, a mesma
+ * área 16:9 da gameplay), só que com uma transição bem mais curta:
+ * aqui não há nenhuma espera narrativa (como o telefone "chamando"),
+ * só o tempo de atravessar uma porta.
+ *
+ * Uma única duração de transição serve tanto para o fade-in quanto
+ * para o fade-out — o JS só alterna "opacity" entre 0 e 1, nessa
+ * ordem (ver FADE_HALF_MS em room-transition.js — os dois valores
+ * precisam bater).
+ * ------------------------------------------------- */
+
+.room-transition-overlay {
+  position: absolute;
+  inset: 0;
+  /* Mesmo z-index de .phone-sequence-overlay: acima do
+     canvas/vinheta/scanlines e do HUD, embora ambos já fiquem
+     escondidos/travados durante a transição inteira (ver
+     room-transition.js). */
+  z-index: 20;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}

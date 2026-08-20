@@ -1,0 +1,1820 @@
+{
+  "version": 2,
+  "updatedAt": "2026-08-20T11:23:46.018Z",
+  "scenes": {
+    "quarto": {
+      "grupo-19ptgo": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -2.843,
+            0,
+            -2.208
+          ]
+        },
+        "rotation": {
+          "y": 1.527814
+        }
+      },
+      "grupo-1n9k1m-copia": {
+        "position": {
+          "x": -0.988608,
+          "z": -5.857266
+        }
+      },
+      "grupo-1n9k1m-copia-2": {
+        "position": {
+          "x": -1.497225,
+          "z": -5.880373
+        }
+      },
+      "janela-quarto/grupo-vtivr7/grupo-fcfifc-3": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "y": 1.045539
+        },
+        "position": {
+          "y": -0.043746
+        }
+      },
+      "grupo-fcfifc": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            0,
+            0,
+            0
+          ]
+        },
+        "position": {
+          "x": -50.897193
+        }
+      },
+      "grupo-4kao5n/grupo-1dw2jh": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            0.48,
+            0.825,
+            0.35
+          ]
+        },
+        "position": {
+          "y": 0.817626,
+          "z": 0.993154,
+          "x": -0.133256
+        }
+      },
+      "grupo-4kao5n/grupo-1dw2jh/sketchfab-scene": {
+        "hint": {
+          "name": "Sketchfab_Scene",
+          "type": "Group",
+          "pos": [
+            0,
+            0.02,
+            0.028
+          ]
+        },
+        "position": {
+          "z": -0.027615,
+          "x": 0.086338
+        },
+        "rotation": {
+          "z": -0.887571
+        }
+      },
+      "grupo-tdqjn": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -2.682,
+            2.15,
+            -3.13
+          ]
+        },
+        "rotation": {
+          "x": 1.558328,
+          "y": 0.029014,
+          "z": 0.026276
+        },
+        "position": {
+          "y": 2.320308
+        }
+      },
+      "grupo-tdqjn-copia": {
+        "rotation": {
+          "x": 1.558328,
+          "y": 0.029014,
+          "z": 0.026276
+        },
+        "position": {
+          "y": 2.205455,
+          "x": -2.655756,
+          "z": -3.335967
+        },
+        "scale": {
+          "y": 0.334208,
+          "z": 0.398961,
+          "x": 0.413051
+        }
+      },
+      "grupo-tdqjn-copia-2": {
+        "rotation": {
+          "x": 1.558328,
+          "y": 0.029014,
+          "z": 0.026276
+        },
+        "position": {
+          "y": 2.205455,
+          "x": -2.670658,
+          "z": -2.662567
+        },
+        "scale": {
+          "y": 0.334208,
+          "z": 0.398961,
+          "x": 0.413051
+        }
+      },
+      "grupo-4kao5n/sketchfab-scene-copia": {
+        "position": {
+          "x": 10.141892,
+          "z": 10.192553,
+          "y": 0.732562
+        },
+        "scale": {
+          "y": 0.52561
+        }
+      },
+      "grupo-4kao5n/sketchfab-scene-copia/sketchfab-model": {
+        "position": {
+          "y": -0.61139,
+          "z": 0.209723,
+          "x": 0.719323
+        },
+        "scale": {
+          "x": 1.991061,
+          "y": 0.635097
+        }
+      },
+      "grupo-1e6kji-copia": {
+        "position": {
+          "x": -7.467858,
+          "z": 10.687954,
+          "y": 0.44231
+        }
+      },
+      "cama-quarto-copia": {
+        "position": {
+          "x": 6.550545,
+          "z": 3.943498
+        },
+        "rotation": {
+          "x": 3.141593,
+          "y": -0.047535,
+          "z": 3.141593
+        }
+      },
+      "sofapsx": {
+        "hint": {
+          "name": "SofaPSX",
+          "type": "Group",
+          "pos": [
+            2.597,
+            0,
+            -2.64
+          ]
+        },
+        "position": {
+          "z": 9.84028,
+          "x": 7.342847
+        }
+      },
+      "taverntablepsx-copia": {
+        "position": {
+          "x": 5.641218,
+          "z": 9.782945
+        },
+        "rotation": {
+          "y": -1.511754,
+          "x": 3.141593,
+          "z": 3.141593
+        }
+      },
+      "tavernbottle05psx-copia": {
+        "position": {
+          "x": 5.669876,
+          "z": 10.176902
+        },
+        "rotation": {
+          "y": -0.087953
+        }
+      },
+      "tavernbottle03psx-copia": {
+        "position": {
+          "x": 5.504248,
+          "z": 9.86211
+        },
+        "rotation": {
+          "y": -0.04967
+        }
+      },
+      "tavernbottle04psx-copia": {
+        "position": {
+          "x": 6.08556,
+          "z": 9.93323
+        }
+      },
+      "tavernbottle02psx-copia": {
+        "position": {
+          "x": 5.697506,
+          "z": 9.584713
+        }
+      },
+      "tavernbottle01psx-copia": {
+        "position": {
+          "x": 5.535901,
+          "z": 9.357597
+        }
+      },
+      "grupo-n099hg-copia": {
+        "position": {
+          "x": 5.587656,
+          "z": 6.849654
+        }
+      },
+      "roundpotpsx": {
+        "hint": {
+          "name": "RoundPotPSX",
+          "type": "Group",
+          "pos": [
+            -2.28,
+            0,
+            -5.8
+          ]
+        },
+        "removed": true
+      },
+      "plantbedpsx-copia": {
+        "position": {
+          "x": 7.591647,
+          "z": 6.7,
+          "y": 1.503447
+        },
+        "rotation": {
+          "y": -1.540684
+        }
+      },
+      "taverntablepsx": {
+        "hint": {
+          "name": "TavernTablePSX",
+          "type": "Group",
+          "pos": [
+            -2,
+            0,
+            -4.35
+          ]
+        },
+        "removed": true
+      },
+      "tavernbottle05psx": {
+        "hint": {
+          "name": "TavernBottle05PSX",
+          "type": "Group",
+          "pos": [
+            -1.594,
+            0.76,
+            -4.376
+          ]
+        },
+        "removed": true
+      },
+      "tavernbottle04psx": {
+        "hint": {
+          "name": "TavernBottle04PSX",
+          "type": "Group",
+          "pos": [
+            -1.85,
+            0.76,
+            -4.54
+          ]
+        },
+        "removed": true
+      },
+      "tavernbottle03psx": {
+        "hint": {
+          "name": "TavernBottle03PSX",
+          "type": "Group",
+          "pos": [
+            -1.902,
+            0.76,
+            -4.226
+          ]
+        },
+        "removed": true
+      },
+      "tavernbottle02psx": {
+        "hint": {
+          "name": "TavernBottle02PSX",
+          "type": "Group",
+          "pos": [
+            -2.2,
+            0.76,
+            -4.393
+          ]
+        },
+        "removed": true
+      },
+      "tavernbottle01psx": {
+        "hint": {
+          "name": "TavernBottle01PSX",
+          "type": "Group",
+          "pos": [
+            -2.417,
+            0.76,
+            -4.222
+          ]
+        },
+        "removed": true
+      },
+      "plantbedpsx": {
+        "hint": {
+          "name": "PlantBedPSX",
+          "type": "Group",
+          "pos": [
+            -2.72,
+            0,
+            -5.45
+          ]
+        },
+        "removed": true
+      },
+      "sidetablepsx-copia": {
+        "position": {
+          "x": 3.626061,
+          "z": 3.46746
+        }
+      },
+      "sidetablepsx-copia-2": {
+        "position": {
+          "x": 4.223764,
+          "z": 3.463016
+        }
+      },
+      "tavernbottle04psx-copia-2": {
+        "position": {
+          "x": 4.020414,
+          "z": 3.360782,
+          "y": 0.782674
+        }
+      },
+      "tavernbottle04psx-copia-3": {
+        "position": {
+          "x": 4.144437,
+          "z": 3.400601,
+          "y": 0.782674
+        },
+        "scale": {
+          "y": 0.675042,
+          "x": 0.722878,
+          "z": 0.702069
+        }
+      },
+      "rockingchairpsx": {
+        "hint": {
+          "name": "RockingChairPSX",
+          "type": "Group",
+          "pos": [
+            -1.6,
+            0,
+            -1
+          ]
+        },
+        "removed": true
+      },
+      "cama-quarto-copia-2": {
+        "position": {
+          "x": 6.60097,
+          "z": 11.935224
+        },
+        "rotation": {
+          "x": 3.141593,
+          "y": -0.047535,
+          "z": 3.141593
+        }
+      },
+      "sidetablepsx-copia-3": {
+        "position": {
+          "x": 3.543571,
+          "z": 11.469789
+        }
+      },
+      "sidetablepsx-copia-4": {
+        "position": {
+          "x": 4.14081,
+          "z": 11.469425
+        }
+      },
+      "plantbedpsx-copia-2": {
+        "position": {
+          "x": 7.607452,
+          "z": 15.620815,
+          "y": 1.503447
+        },
+        "rotation": {
+          "y": -1.540684
+        }
+      },
+      "chesstablepsx": {
+        "hint": {
+          "name": "ChessTablePSX",
+          "type": "Group",
+          "pos": [
+            -0.75,
+            0,
+            -5.2
+          ]
+        },
+        "position": {
+          "z": 17.962189,
+          "x": 5.604659
+        }
+      },
+      "sofapsx-copia": {
+        "position": {
+          "z": 9.902877,
+          "x": 3.660067
+        },
+        "rotation": {
+          "y": 1.534899
+        }
+      },
+      "tavernbottle04psx-copia/tavern-bottle-04-psx": {
+        "position": {
+          "x": -0.257363,
+          "z": 0.005774
+        }
+      },
+      "sofapsx-copia-2": {
+        "position": {
+          "z": 17.867358,
+          "x": 7.372698
+        }
+      },
+      "sofapsx-copia-3": {
+        "position": {
+          "z": 17.898194,
+          "x": 3.627344
+        },
+        "rotation": {
+          "y": 1.534899
+        }
+      },
+      "tavernbottle02psx-copia-2": {
+        "position": {
+          "x": 3.972621,
+          "z": 11.400939,
+          "y": 0.781041
+        }
+      },
+      "grupo-n099hg-copia-2": {
+        "position": {
+          "x": 5.589756,
+          "z": 15.11251
+        }
+      },
+      "grupo-1e6kji-copia-2": {
+        "position": {
+          "x": 3.583105,
+          "z": 11.370551,
+          "y": 0.779935
+        }
+      },
+      "sidetablepsx": {
+        "hint": {
+          "name": "SideTablePSX",
+          "type": "Group",
+          "pos": [
+            -0.7,
+            0,
+            -1.6
+          ]
+        },
+        "removed": true
+      },
+      "grupo-19ptgo-copia": {
+        "rotation": {
+          "y": -1.561202,
+          "x": -3.141593,
+          "z": -3.141593
+        },
+        "position": {
+          "x": 7.666162,
+          "z": 7.1023
+        }
+      },
+      "grupo-19ptgo-copia-2": {
+        "rotation": {
+          "y": -1.561202,
+          "x": -3.141593,
+          "z": -3.141593
+        },
+        "position": {
+          "x": 7.658997,
+          "z": 14.476041
+        }
+      }
+    },
+    "corredor": {
+      "janela-meu-quarto/grupo-vtivr7/grupo-fcfifc-3": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "y": 1.072817
+        },
+        "position": {
+          "y": -0.041947
+        }
+      },
+      "janela-entrada-saida/grupo-vtivr7/grupo-fcfifc-3": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            0,
+            0,
+            0
+          ]
+        },
+        "scale": {
+          "y": 1.03123
+        },
+        "position": {
+          "y": -0.023584
+        }
+      },
+      "escrivaninha-quartos-gaveta/grupo-1eg8nj": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -0.06,
+            0.8,
+            0.26
+          ]
+        },
+        "scale": {
+          "y": 0.079664,
+          "z": 0.067935,
+          "x": 0.083556
+        },
+        "position": {
+          "x": -0.104152
+        }
+      },
+      "grupo-14w34r/malha-112a5y": {
+        "hint": {
+          "name": "",
+          "type": "Mesh",
+          "pos": [
+            0,
+            0,
+            0.026
+          ]
+        },
+        "scale": {
+          "z": 1.778299,
+          "x": 1.042565
+        }
+      },
+      "grupo-10kbv3/malha-112a5y": {
+        "hint": {
+          "name": "",
+          "type": "Mesh",
+          "pos": [
+            0,
+            0,
+            0.026
+          ]
+        },
+        "scale": {
+          "x": 1.049318
+        }
+      },
+      "grupo-8tv0e0/malha-112a5y": {
+        "hint": {
+          "name": "",
+          "type": "Mesh",
+          "pos": [
+            0,
+            0,
+            0.026
+          ]
+        },
+        "scale": {
+          "z": 2.924548,
+          "x": 1.021578
+        }
+      },
+      "interruptor-corredor": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            2.975,
+            1.15,
+            -10.2
+          ]
+        },
+        "position": {
+          "y": 1.616789
+        },
+        "scale": {
+          "y": 1.016877,
+          "z": 1.290813,
+          "x": 1.100279
+        }
+      },
+      "grupo-1ba0qi": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            2.975,
+            2.05,
+            -18.5
+          ]
+        },
+        "scale": {
+          "y": 1.292233,
+          "z": 1.144506,
+          "x": 1.361245
+        }
+      },
+      "grupo-14w34r": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -2.975,
+            1.85,
+            -18.8
+          ]
+        },
+        "position": {
+          "y": 2.098759
+        }
+      },
+      "grupo-8tv0e0": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            2.975,
+            1.85,
+            -11
+          ]
+        },
+        "position": {
+          "y": 2.102537
+        }
+      },
+      "grupo-10kbv3": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -2.975,
+            1.85,
+            -3.2
+          ]
+        },
+        "position": {
+          "y": 2.109288
+        }
+      },
+      "grupo-idxqao-copia": {
+        "position": {
+          "x": 7.323997,
+          "z": -16.301364
+        }
+      },
+      "plasticchairpsx-copia": {
+        "position": {
+          "x": -2.164476,
+          "z": -22.627238
+        },
+        "rotation": {
+          "x": -3.141593,
+          "y": 0.888928,
+          "z": -3.141593
+        }
+      },
+      "porchplantpsx/plant-copia": {
+        "position": {
+          "x": -3.961405,
+          "z": 0.038954
+        }
+      },
+      "clotheslinepsx": {
+        "hint": {
+          "name": "ClotheslinePSX",
+          "type": "Group",
+          "pos": [
+            2.644,
+            1.55,
+            -23.334
+          ]
+        },
+        "position": {
+          "y": 1.793898,
+          "x": 2.854379
+        },
+        "scale": {
+          "z": 0.473533,
+          "x": 1.927757,
+          "y": 1.697708
+        }
+      },
+      "pichacao-nossa-senhora": {
+        "hint": {
+          "name": "pichacao-nossa-senhora",
+          "type": "Mesh",
+          "pos": [
+            -5.304,
+            1.65,
+            -7.802
+          ]
+        },
+        "removed": true
+      },
+      "interruptor-varanda": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            1.05,
+            1.15,
+            -22.045
+          ]
+        },
+        "position": {
+          "y": 1.659011
+        }
+      },
+      "powermeterpsx": {
+        "hint": {
+          "name": "PowerMeterPSX",
+          "type": "Group",
+          "pos": [
+            8.137,
+            1.05,
+            -18.9
+          ]
+        },
+        "position": {
+          "y": 1.107146,
+          "z": -3.367538,
+          "x": 3.314743
+        }
+      },
+      "branchespsx-copia": {
+        "position": {
+          "x": 3.746817,
+          "z": -0.952751
+        }
+      },
+      "dirtmoundpsx": {
+        "hint": {
+          "name": "DirtMoundPSX",
+          "type": "Group",
+          "pos": [
+            8.491,
+            0,
+            -12.2
+          ]
+        },
+        "position": {
+          "z": 0.678608,
+          "x": -9.009403
+        }
+      },
+      "woodpilepsx": {
+        "hint": {
+          "name": "WoodpilePSX",
+          "type": "Group",
+          "pos": [
+            8.33,
+            0,
+            -10.4
+          ]
+        },
+        "position": {
+          "z": 3.872518,
+          "x": 3.567447
+        }
+      },
+      "axestumppsx": {
+        "hint": {
+          "name": "AxeStumpPSX",
+          "type": "Group",
+          "pos": [
+            8.573,
+            0,
+            -8.9
+          ]
+        },
+        "position": {
+          "z": 2.316363,
+          "x": 3.622791
+        }
+      },
+      "woodpilepsx-copia": {
+        "position": {
+          "z": 5.390578,
+          "x": 6.972957
+        },
+        "rotation": {
+          "y": 1.178504
+        }
+      },
+      "yardtrashcanpsx/yard-trash-can-psx": {
+        "hint": {
+          "name": "yard_trash_can_psx",
+          "type": "Group",
+          "pos": [
+            0,
+            0,
+            0
+          ]
+        },
+        "position": {
+          "x": -1.700402
+        }
+      },
+      "trashbagcpsx": {
+        "hint": {
+          "name": "TrashBagCPSX",
+          "type": "Group",
+          "pos": [
+            8.35,
+            0,
+            -14.1
+          ]
+        },
+        "position": {
+          "z": -12.134632
+        }
+      },
+      "chickentoolpotpsx": {
+        "hint": {
+          "name": "ChickenToolPotPSX",
+          "type": "Group",
+          "pos": [
+            8.09,
+            0,
+            -5.4
+          ]
+        },
+        "position": {
+          "x": -8.100265,
+          "z": -4.038253
+        },
+        "rotation": {
+          "y": -1.457739
+        }
+      },
+      "fernpotpsx": {
+        "hint": {
+          "name": "FernPotPSX",
+          "type": "Group",
+          "pos": [
+            8.171,
+            0,
+            -6
+          ]
+        },
+        "position": {
+          "x": -8.128192,
+          "z": -4.793381
+        }
+      },
+      "fernpotpsx-copia": {
+        "position": {
+          "x": -8.159175,
+          "z": -5.320283
+        }
+      },
+      "fernpotpsx-copia-2": {
+        "position": {
+          "x": -8.123713,
+          "z": -6.029477
+        }
+      },
+      "dirtmoundpsx-copia": {
+        "position": {
+          "z": 1.720283,
+          "x": -9.980346
+        }
+      },
+      "dirtmoundpsx-copia-2": {
+        "position": {
+          "z": 1.46656,
+          "x": -11.655562
+        }
+      },
+      "dirtmoundpsx-copia-3": {
+        "position": {
+          "z": 7.358172,
+          "x": -11.193103
+        }
+      },
+      "yardtrashcanpsx": {
+        "hint": {
+          "name": "YardTrashCanPSX",
+          "type": "Group",
+          "pos": [
+            8.337,
+            0,
+            -13.15
+          ]
+        },
+        "rotation": {
+          "y": -0.675873
+        },
+        "position": {
+          "z": -10.319847,
+          "x": 9.554408
+        }
+      },
+      "trashbagbpsx/trash-bag-b-psx/trash-bag-b-psx-copia": {
+        "position": {
+          "x": -3.206046,
+          "z": 4.380865
+        }
+      },
+      "escrivaninha-quartos-gaveta": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -3.02,
+            0,
+            -11
+          ]
+        },
+        "position": {
+          "x": -2.992836
+        }
+      },
+      "carpsx": {
+        "hint": {
+          "name": "CarPSX",
+          "type": "Group",
+          "pos": [
+            0.9,
+            -0.04,
+            9.735
+          ]
+        },
+        "rotation": {
+          "x": 3.141592,
+          "y": 0.062415,
+          "z": 3.141592
+        },
+        "position": {
+          "x": -5.838251,
+          "z": 1.08005
+        }
+      },
+      "plasticchairpsx-copia-2": {
+        "position": {
+          "x": -4.221805,
+          "z": -4.497281,
+          "y": 0.015479
+        },
+        "rotation": {
+          "y": 0.305829
+        }
+      }
+    },
+    "cozinha": {
+      "stovepsx/stove-psx": {
+        "hint": {
+          "name": "stove_psx",
+          "type": "Group",
+          "pos": [
+            0.007,
+            0,
+            0.001
+          ]
+        },
+        "position": {
+          "x": 7.076051,
+          "z": 1.688897
+        },
+        "rotation": {
+          "y": -1.552146
+        }
+      },
+      "gascylinderpsx/gas-cylinder-psx": {
+        "hint": {
+          "name": "gas_cylinder_psx",
+          "type": "Group",
+          "pos": [
+            0.004,
+            0,
+            0.001
+          ]
+        },
+        "position": {
+          "z": 2.355114
+        },
+        "rotation": {
+          "x": 3.141593,
+          "y": -1.502427,
+          "z": 3.141593
+        },
+        "scale": {
+          "y": 0.489363,
+          "x": 0.429258,
+          "z": 0.3515
+        }
+      },
+      "fruittablepsx": {
+        "hint": {
+          "name": "FruitTablePSX",
+          "type": "Group",
+          "pos": [
+            2.869,
+            0.02,
+            -0.734
+          ]
+        },
+        "position": {
+          "x": -2.217321,
+          "z": -1.621097
+        }
+      },
+      "fridgepsx": {
+        "hint": {
+          "name": "FridgePSX",
+          "type": "Group",
+          "pos": [
+            -3.55,
+            0.02,
+            -0.533
+          ]
+        },
+        "position": {
+          "x": 3.536261,
+          "z": -1.046138
+        },
+        "rotation": {
+          "y": -1.517528
+        }
+      },
+      "sinkcabinetpsx": {
+        "hint": {
+          "name": "SinkCabinetPSX",
+          "type": "Group",
+          "pos": [
+            -2.353,
+            0.02,
+            -4.428
+          ]
+        },
+        "position": {
+          "x": 1.063236
+        }
+      },
+      "shelfpsx": {
+        "hint": {
+          "name": "ShelfPSX",
+          "type": "Group",
+          "pos": [
+            2.577,
+            0.02,
+            -4.633
+          ]
+        },
+        "position": {
+          "y": 1.020166
+        }
+      },
+      "sinkcabinetpsx-copia": {
+        "position": {
+          "x": -0.233351,
+          "z": -4.431046
+        }
+      },
+      "microwavepsx": {
+        "hint": {
+          "name": "MicrowavePSX",
+          "type": "Group",
+          "pos": [
+            -1.125,
+            0.02,
+            -4.592
+          ]
+        },
+        "position": {
+          "z": -4.525766,
+          "y": 0.432625,
+          "x": -2.372221
+        }
+      },
+      "clayfilterpsx": {
+        "hint": {
+          "name": "ClayFilterPSX",
+          "type": "Group",
+          "pos": [
+            -2.633,
+            0.02,
+            -0.407
+          ]
+        },
+        "position": {
+          "y": 0.722539,
+          "z": -4.503642,
+          "x": -0.712474
+        },
+        "rotation": {
+          "y": -0.035882
+        }
+      },
+      "bottleglasspsx": {
+        "hint": {
+          "name": "BottleGlassPSX",
+          "type": "Group",
+          "pos": [
+            -2.14,
+            0.02,
+            -0.307
+          ]
+        },
+        "position": {
+          "y": 0.683346,
+          "z": -1.376746,
+          "x": -2.649017
+        }
+      },
+      "portableradiopsx": {
+        "hint": {
+          "name": "PortableRadioPSX",
+          "type": "Group",
+          "pos": [
+            -0.528,
+            0.02,
+            -4.743
+          ]
+        },
+        "position": {
+          "z": -4.557393,
+          "y": 0.436748,
+          "x": -1.55532
+        },
+        "scale": {
+          "y": 1.276422,
+          "z": 1.15778,
+          "x": 1.274828
+        }
+      },
+      "grupo-1kwaiq": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            -3.55,
+            1.75,
+            -4.78
+          ]
+        },
+        "position": {
+          "x": 3.841143,
+          "z": -2.771361,
+          "y": 1.488158
+        },
+        "rotation": {
+          "y": -1.533846,
+          "x": -3.141593,
+          "z": -3.141593
+        }
+      },
+      "gascylinderpsx": {
+        "hint": {
+          "name": "GasCylinderPSX",
+          "type": "Group",
+          "pos": [
+            3.586,
+            0.02,
+            -4.561
+          ]
+        },
+        "position": {
+          "x": 3.700825,
+          "z": -4.707197
+        }
+      },
+      "interruptor-cozinha": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            1.5,
+            1.15,
+            -0.225
+          ]
+        },
+        "scale": {
+          "y": 1.134792,
+          "z": 1.187964,
+          "x": 1.060479
+        }
+      }
+    },
+    "banheiro": {
+      "showerboxpsx": {
+        "hint": {
+          "name": "ShowerBoxPSX",
+          "type": "Group",
+          "pos": [
+            3.332,
+            0.02,
+            -4.368
+          ]
+        },
+        "position": {
+          "x": -3.386033,
+          "z": -0.830325
+        },
+        "rotation": {
+          "x": -3.141593,
+          "y": 1.47919,
+          "z": -3.141593
+        }
+      },
+      "bathroomsinkpsx": {
+        "hint": {
+          "name": "BathroomSinkPSX",
+          "type": "Group",
+          "pos": [
+            -2.704,
+            0.02,
+            -4.556
+          ]
+        },
+        "position": {
+          "z": -0.437099,
+          "x": -0.845704
+        },
+        "rotation": {
+          "x": -3.141593,
+          "y": -0.042321,
+          "z": -3.141593
+        }
+      },
+      "mirrorcabinetpsx": {
+        "hint": {
+          "name": "MirrorCabinetPSX",
+          "type": "Group",
+          "pos": [
+            -2.706,
+            1.17,
+            -4.691
+          ]
+        },
+        "position": {
+          "x": -0.84505,
+          "z": -0.296224
+        },
+        "rotation": {
+          "x": -3.141593,
+          "y": -0.001972,
+          "z": -3.141593
+        }
+      },
+      "towelpsx": {
+        "hint": {
+          "name": "TowelPSX",
+          "type": "Group",
+          "pos": [
+            2.199,
+            0.62,
+            -4.662
+          ]
+        },
+        "position": {
+          "z": -0.327962,
+          "x": -1.958773,
+          "y": 0.36815
+        },
+        "rotation": {
+          "x": -3.141593,
+          "y": 0.023074,
+          "z": -3.141593
+        }
+      },
+      "toiletpsx": {
+        "hint": {
+          "name": "ToiletPSX",
+          "type": "Group",
+          "pos": [
+            -3.632,
+            0.02,
+            -4.547
+          ]
+        },
+        "position": {
+          "z": -2.387762,
+          "x": -3.545617
+        },
+        "rotation": {
+          "x": -3.141593,
+          "y": 1.560263,
+          "z": -3.141593
+        },
+        "scale": {
+          "y": 1.313758,
+          "x": 1.286589,
+          "z": 1.380019
+        }
+      },
+      "laundrybasketpsx": {
+        "hint": {
+          "name": "LaundryBasketPSX",
+          "type": "Group",
+          "pos": [
+            3.595,
+            0.02,
+            -0.472
+          ]
+        },
+        "position": {
+          "x": -3.600774,
+          "z": -4.535606
+        }
+      },
+      "laundrybasketpsx-copia": {
+        "position": {
+          "x": -3.184439,
+          "z": -4.545683
+        }
+      },
+      "interruptor-banheiro": {
+        "hint": {
+          "name": "",
+          "type": "Group",
+          "pos": [
+            1.8,
+            1.3,
+            -0.225
+          ]
+        },
+        "position": {
+          "x": 1.507294,
+          "y": 1.369905
+        },
+        "scale": {
+          "y": 1.153968,
+          "z": 1.2862,
+          "x": 1.032378
+        }
+      }
+    },
+    "quarto-01": {}
+  },
+  "clones": {
+    "quarto": {
+      "grupo-1n9k1m-copia": {
+        "source": "grupo-1n9k1m",
+        "parent": "",
+        "localId": "grupo-1n9k1m-copia",
+        "base": "grupo-1n9k1m",
+        "label": "Grupo (cópia)",
+        "count": 8,
+        "order": 1
+      },
+      "grupo-1n9k1m-copia-2": {
+        "source": "grupo-1n9k1m",
+        "parent": "",
+        "localId": "grupo-1n9k1m-copia-2",
+        "base": "grupo-1n9k1m",
+        "label": "Grupo (cópia 2)",
+        "count": 8,
+        "order": 2
+      },
+      "grupo-tdqjn-copia": {
+        "source": "grupo-tdqjn",
+        "parent": "",
+        "localId": "grupo-tdqjn-copia",
+        "base": "grupo-tdqjn",
+        "label": "Grupo (cópia)",
+        "count": 5,
+        "order": 3
+      },
+      "grupo-tdqjn-copia-2": {
+        "source": "grupo-tdqjn",
+        "parent": "",
+        "localId": "grupo-tdqjn-copia-2",
+        "base": "grupo-tdqjn",
+        "label": "Grupo (cópia 2)",
+        "count": 5,
+        "order": 4
+      },
+      "grupo-4kao5n/sketchfab-scene-copia": {
+        "source": "grupo-4kao5n/sketchfab-scene",
+        "parent": "grupo-4kao5n",
+        "localId": "sketchfab-scene-copia",
+        "base": "sketchfab-scene",
+        "label": "Sketchfab Scene (cópia)",
+        "count": 14,
+        "order": 5
+      },
+      "grupo-1e6kji-copia": {
+        "source": "grupo-1e6kji",
+        "parent": "",
+        "localId": "grupo-1e6kji-copia",
+        "base": "grupo-1e6kji",
+        "label": "Grupo (cópia)",
+        "count": 4,
+        "order": 6
+      },
+      "cama-quarto-copia": {
+        "source": "cama-quarto",
+        "parent": "",
+        "localId": "cama-quarto-copia",
+        "base": "cama-quarto",
+        "label": "Cama · Cama quarto (cópia)",
+        "count": 8,
+        "order": 7
+      },
+      "taverntablepsx-copia": {
+        "source": "taverntablepsx",
+        "parent": "",
+        "localId": "taverntablepsx-copia",
+        "base": "taverntablepsx",
+        "label": "Mesa de taverna (cópia)",
+        "count": 3,
+        "order": 8
+      },
+      "tavernbottle05psx-copia": {
+        "source": "tavernbottle05psx",
+        "parent": "",
+        "localId": "tavernbottle05psx-copia",
+        "base": "tavernbottle05psx",
+        "label": "Garrafa 5 da taverna (frasco) (cópia)",
+        "count": 3,
+        "order": 9
+      },
+      "tavernbottle03psx-copia": {
+        "source": "tavernbottle03psx",
+        "parent": "",
+        "localId": "tavernbottle03psx-copia",
+        "base": "tavernbottle03psx",
+        "label": "Garrafa 3 da taverna (quadrada) (cópia)",
+        "count": 3,
+        "order": 10
+      },
+      "tavernbottle04psx-copia": {
+        "source": "tavernbottle04psx",
+        "parent": "",
+        "localId": "tavernbottle04psx-copia",
+        "base": "tavernbottle04psx",
+        "label": "Garrafa 4 da taverna (alta) (cópia)",
+        "count": 3,
+        "order": 11
+      },
+      "tavernbottle02psx-copia": {
+        "source": "tavernbottle02psx",
+        "parent": "",
+        "localId": "tavernbottle02psx-copia",
+        "base": "tavernbottle02psx",
+        "label": "Garrafa 2 da taverna (garrafao) (cópia)",
+        "count": 3,
+        "order": 12
+      },
+      "tavernbottle01psx-copia": {
+        "source": "tavernbottle01psx",
+        "parent": "",
+        "localId": "tavernbottle01psx-copia",
+        "base": "tavernbottle01psx",
+        "label": "Garrafa 1 da taverna (jarro baixo) (cópia)",
+        "count": 3,
+        "order": 13
+      },
+      "grupo-n099hg-copia": {
+        "source": "grupo-n099hg",
+        "parent": "",
+        "localId": "grupo-n099hg-copia",
+        "base": "grupo-n099hg",
+        "label": "Grupo (cópia)",
+        "count": 2,
+        "order": 14
+      },
+      "plantbedpsx-copia": {
+        "source": "plantbedpsx",
+        "parent": "",
+        "localId": "plantbedpsx-copia",
+        "base": "plantbedpsx",
+        "label": "Canteiro de plantas (cópia)",
+        "count": 3,
+        "order": 15
+      },
+      "sidetablepsx-copia": {
+        "source": "sidetablepsx",
+        "parent": "",
+        "localId": "sidetablepsx-copia",
+        "base": "sidetablepsx",
+        "label": "Mesa de canto (cópia)",
+        "count": 3,
+        "order": 16
+      },
+      "sidetablepsx-copia-2": {
+        "source": "sidetablepsx",
+        "parent": "",
+        "localId": "sidetablepsx-copia-2",
+        "base": "sidetablepsx",
+        "label": "Mesa de canto (cópia 2)",
+        "count": 3,
+        "order": 17
+      },
+      "tavernbottle04psx-copia-2": {
+        "source": "tavernbottle04psx",
+        "parent": "",
+        "localId": "tavernbottle04psx-copia-2",
+        "base": "tavernbottle04psx",
+        "label": "Garrafa 4 da taverna (alta) (cópia 2)",
+        "count": 3,
+        "order": 18
+      },
+      "tavernbottle04psx-copia-3": {
+        "source": "tavernbottle04psx",
+        "parent": "",
+        "localId": "tavernbottle04psx-copia-3",
+        "base": "tavernbottle04psx",
+        "label": "Garrafa 4 da taverna (alta) (cópia 3)",
+        "count": 3,
+        "order": 19
+      },
+      "cama-quarto-copia-2": {
+        "source": "cama-quarto",
+        "parent": "",
+        "localId": "cama-quarto-copia-2",
+        "base": "cama-quarto",
+        "label": "Cama · Cama quarto (cópia 2)",
+        "count": 8,
+        "order": 20
+      },
+      "sidetablepsx-copia-3": {
+        "source": "sidetablepsx",
+        "parent": "",
+        "localId": "sidetablepsx-copia-3",
+        "base": "sidetablepsx",
+        "label": "Mesa de canto (cópia 3)",
+        "count": 3,
+        "order": 21
+      },
+      "sidetablepsx-copia-4": {
+        "source": "sidetablepsx",
+        "parent": "",
+        "localId": "sidetablepsx-copia-4",
+        "base": "sidetablepsx",
+        "label": "Mesa de canto (cópia 4)",
+        "count": 3,
+        "order": 22
+      },
+      "plantbedpsx-copia-2": {
+        "source": "plantbedpsx",
+        "parent": "",
+        "localId": "plantbedpsx-copia-2",
+        "base": "plantbedpsx",
+        "label": "Canteiro de plantas (cópia 2)",
+        "count": 3,
+        "order": 23
+      },
+      "sofapsx-copia": {
+        "source": "sofapsx",
+        "parent": "",
+        "localId": "sofapsx-copia",
+        "base": "sofapsx",
+        "label": "Sofa (cópia)",
+        "count": 3,
+        "order": 24
+      },
+      "sofapsx-copia-2": {
+        "source": "sofapsx",
+        "parent": "",
+        "localId": "sofapsx-copia-2",
+        "base": "sofapsx",
+        "label": "Sofa (cópia 2)",
+        "count": 3,
+        "order": 25
+      },
+      "sofapsx-copia-3": {
+        "source": "sofapsx",
+        "parent": "",
+        "localId": "sofapsx-copia-3",
+        "base": "sofapsx",
+        "label": "Sofa (cópia 3)",
+        "count": 3,
+        "order": 26
+      },
+      "tavernbottle02psx-copia-2": {
+        "source": "tavernbottle02psx",
+        "parent": "",
+        "localId": "tavernbottle02psx-copia-2",
+        "base": "tavernbottle02psx",
+        "label": "Garrafa 2 da taverna (garrafao) (cópia 2)",
+        "count": 3,
+        "order": 27
+      },
+      "grupo-n099hg-copia-2": {
+        "source": "grupo-n099hg",
+        "parent": "",
+        "localId": "grupo-n099hg-copia-2",
+        "base": "grupo-n099hg",
+        "label": "Grupo (cópia 2)",
+        "count": 2,
+        "order": 28
+      },
+      "grupo-1e6kji-copia-2": {
+        "source": "grupo-1e6kji",
+        "parent": "",
+        "localId": "grupo-1e6kji-copia-2",
+        "base": "grupo-1e6kji",
+        "label": "Grupo (cópia 2)",
+        "count": 4,
+        "order": 29
+      },
+      "grupo-19ptgo-copia": {
+        "source": "grupo-19ptgo",
+        "parent": "",
+        "localId": "grupo-19ptgo-copia",
+        "base": "grupo-19ptgo",
+        "label": "Grupo (cópia)",
+        "count": 9,
+        "order": 30
+      },
+      "grupo-19ptgo-copia-2": {
+        "source": "grupo-19ptgo",
+        "parent": "",
+        "localId": "grupo-19ptgo-copia-2",
+        "base": "grupo-19ptgo",
+        "label": "Grupo (cópia 2)",
+        "count": 9,
+        "order": 31
+      }
+    },
+    "cozinha": {
+      "sinkcabinetpsx-copia": {
+        "source": "sinkcabinetpsx",
+        "parent": "",
+        "localId": "sinkcabinetpsx-copia",
+        "base": "sinkcabinetpsx",
+        "label": "Pia com armario (cópia)",
+        "count": 3,
+        "order": 1
+      }
+    },
+    "banheiro": {
+      "laundrybasketpsx-copia": {
+        "source": "laundrybasketpsx",
+        "parent": "",
+        "localId": "laundrybasketpsx-copia",
+        "base": "laundrybasketpsx",
+        "label": "Cesto de roupa (cópia)",
+        "count": 3,
+        "order": 1
+      }
+    },
+    "corredor": {
+      "grupo-idxqao-copia": {
+        "source": "grupo-idxqao",
+        "parent": "",
+        "localId": "grupo-idxqao-copia",
+        "base": "grupo-idxqao",
+        "label": "Grupo (cópia)",
+        "count": 42,
+        "order": 1
+      },
+      "plasticchairpsx-copia": {
+        "source": "plasticchairpsx",
+        "parent": "",
+        "localId": "plasticchairpsx-copia",
+        "base": "plasticchairpsx",
+        "label": "Cadeira de plastico da varanda (cópia)",
+        "count": 3,
+        "order": 2
+      },
+      "porchplantpsx/plant-copia": {
+        "source": "porchplantpsx/plant",
+        "parent": "porchplantpsx",
+        "localId": "plant-copia",
+        "base": "plant",
+        "label": "Plant (cópia)",
+        "count": 2,
+        "order": 3
+      },
+      "branchespsx-copia": {
+        "source": "branchespsx",
+        "parent": "",
+        "localId": "branchespsx-copia",
+        "base": "branchespsx",
+        "label": "Gravetos e galhos (cópia)",
+        "count": 3,
+        "order": 4
+      },
+      "woodpilepsx-copia": {
+        "source": "woodpilepsx",
+        "parent": "",
+        "localId": "woodpilepsx-copia",
+        "base": "woodpilepsx",
+        "label": "Pilha de lenha (cópia)",
+        "count": 3,
+        "order": 7
+      },
+      "fernpotpsx-copia": {
+        "source": "fernpotpsx",
+        "parent": "",
+        "localId": "fernpotpsx-copia",
+        "base": "fernpotpsx",
+        "label": "Vaso de samambaia (cópia)",
+        "count": 4,
+        "order": 8
+      },
+      "fernpotpsx-copia-2": {
+        "source": "fernpotpsx",
+        "parent": "",
+        "localId": "fernpotpsx-copia-2",
+        "base": "fernpotpsx",
+        "label": "Vaso de samambaia (cópia 2)",
+        "count": 4,
+        "order": 9
+      },
+      "dirtmoundpsx-copia": {
+        "source": "dirtmoundpsx",
+        "parent": "",
+        "localId": "dirtmoundpsx-copia",
+        "base": "dirtmoundpsx",
+        "label": "Montinho de terra (cópia)",
+        "count": 4,
+        "order": 10
+      },
+      "dirtmoundpsx-copia-2": {
+        "source": "dirtmoundpsx",
+        "parent": "",
+        "localId": "dirtmoundpsx-copia-2",
+        "base": "dirtmoundpsx",
+        "label": "Montinho de terra (cópia 2)",
+        "count": 4,
+        "order": 11
+      },
+      "dirtmoundpsx-copia-3": {
+        "source": "dirtmoundpsx",
+        "parent": "",
+        "localId": "dirtmoundpsx-copia-3",
+        "base": "dirtmoundpsx",
+        "label": "Montinho de terra (cópia 3)",
+        "count": 4,
+        "order": 12
+      },
+      "trashbagbpsx/trash-bag-b-psx/trash-bag-b-psx-copia": {
+        "source": "trashbagbpsx/trash-bag-b-psx/trash-bag-b-psx",
+        "parent": "trashbagbpsx/trash-bag-b-psx",
+        "localId": "trash-bag-b-psx-copia",
+        "base": "trash-bag-b-psx",
+        "label": "Saco de lixo B (malha) (cópia)",
+        "count": 1,
+        "order": 13
+      },
+      "plasticchairpsx-copia-2": {
+        "source": "plasticchairpsx",
+        "parent": "",
+        "localId": "plasticchairpsx-copia-2",
+        "base": "plasticchairpsx",
+        "label": "Cadeira de plastico da varanda (cópia 2)",
+        "count": 3,
+        "order": 14
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+/**
+ * models/shelf-factory.js
+ * -------------------------------------------------
+ * PRATELEIRA da COZINHA - carregada a partir de um modelo .glb pronto
+ * (assets/models/shelf_psx.glb), no MESMO sistema de importacao dos
+ * outros modelos do jogo (ver models/sink-cabinet-factory.js,
+ * models/fruit-table-factory.js, models/fridge-factory.js,
+ * models/gas-cylinder-factory.js e models/stove-factory.js): o mesmo
+ * THREE.GLTFLoader que ja carrega os outros .glb de assets/models, o
+ * mesmo THREE.DRACOLoader acoplado que as outras cinco pecas da COZINHA

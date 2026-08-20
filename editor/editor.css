@@ -1,0 +1,915 @@
+/* editor/editor.css
+ * -------------------------------------------------
+ * Interface do modo EDITOR — pensada para celular desde o
+ * primeiro pixel.
+ *
+ * Princípios seguidos aqui:
+ *   - Nada de dezenas de botõezinhos soltos: tudo mora em ABAS,
+ *     PAINÉIS RETRÁTEIS e SEÇÕES QUE ABREM/FECHAM.
+ *   - Os dois painéis (hierarquia à esquerda, propriedades à
+ *     direita) deslizam para fora da tela quando não estão em uso,
+ *     devolvendo o cenário inteiro para o dedo.
+ *   - Área de toque mínima confortável em tudo que é tocável.
+ *   - Unidades em vmin/% para escalar igual em qualquer aparelho,
+ *     mesmo princípio de interface/hud.css.
+ *   - Paleta escura translúcida com o mesmo tom osso (#d8cba8) já
+ *     usado pelo menu e pelos diálogos do jogo.
+ * ------------------------------------------------- */
+
+@font-face {
+  font-family: "BoldsPixels";
+  src: url("../assets/fonts/BoldsPixels.ttf") format("truetype");
+  font-display: swap;
+}
+
+.editor-root {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #e8e2d4;
+  font-size: 3.2vmin;
+  line-height: 1.25;
+}
+
+.editor-root * {
+  box-sizing: border-box;
+}
+
+.editor-hidden {
+  display: none !important;
+}
+
+/* Camada que recebe o toque do cenário: girar câmera, selecionar
+   objeto e arrastar o gizmo. Fica por baixo de todo o resto. */
+.editor-world {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  touch-action: none;
+  z-index: 1;
+}
+
+/* ---------- Barra superior ---------- */
+
+.editor-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9vmin;
+  display: flex;
+  align-items: center;
+  gap: 1vmin;
+  padding: 0 1.4vmin;
+  background: linear-gradient(180deg, rgba(8, 8, 10, 0.92), rgba(8, 8, 10, 0.62));
+  border-bottom: 1px solid rgba(216, 203, 168, 0.22);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.editor-brand {
+  font-family: "BoldsPixels", monospace;
+  font-size: 3.6vmin;
+  letter-spacing: 0.12em;
+  color: #d8cba8;
+  padding: 0 0.8vmin;
+  white-space: nowrap;
+}
+
+.editor-scene-tabs {
+  display: flex;
+  gap: 0.6vmin;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 1vmin;
+  padding: 0.4vmin;
+}
+
+.editor-spacer {
+  flex: 1;
+}
+
+.editor-dirty-dot {
+  width: 1.6vmin;
+  height: 1.6vmin;
+  border-radius: 50%;
+  background: #ffb545;
+  box-shadow: 0 0 1.2vmin rgba(255, 181, 69, 0.8);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  flex: none;
+}
+
+.editor-dirty-dot.is-on {
+  opacity: 1;
+}
+
+/* ---------- Botões ---------- */
+
+.editor-btn {
+  appearance: none;
+  border: 1px solid rgba(216, 203, 168, 0.26);
+  background: rgba(255, 255, 255, 0.07);
+  color: #e8e2d4;
+  border-radius: 1vmin;
+  min-height: 7.4vmin;
+  min-width: 7.4vmin;
+  padding: 0 1.6vmin;
+  font-size: 3vmin;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8vmin;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s ease, transform 0.08s ease, border-color 0.12s ease;
+}
+
+.editor-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.editor-btn.is-active {
+  background: rgba(216, 203, 168, 0.9);
+  border-color: #d8cba8;
+  color: #14120e;
+}
+
+.editor-btn.is-danger {
+  border-color: rgba(255, 110, 110, 0.5);
+  color: #ff9b9b;
+}
+
+.editor-btn.is-primary {
+  background: rgba(126, 214, 148, 0.22);
+  border-color: rgba(126, 214, 148, 0.6);
+  color: #bff3cd;
+}
+
+.editor-btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.editor-btn-sm {
+  min-height: 6.2vmin;
+  min-width: 6.2vmin;
+  font-size: 2.7vmin;
+  padding: 0 1.1vmin;
+}
+
+/* ---------- Painéis laterais ---------- */
+
+.editor-panel {
+  position: absolute;
+  top: 9vmin;
+  bottom: 0;
+  width: 34%;
+  max-width: 46vmin;
+  min-width: 30vmin;
+  background: rgba(10, 10, 12, 0.93);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+  z-index: 8;
+  transition: transform 0.22s ease;
+}
+
+.editor-panel-left {
+  left: 0;
+  border-right: 1px solid rgba(216, 203, 168, 0.22);
+}
+
+.editor-panel-right {
+  right: 0;
+  width: 38%;
+  max-width: 52vmin;
+  border-left: 1px solid rgba(216, 203, 168, 0.22);
+}
+
+.editor-panel-left.is-closed {
+  transform: translateX(-101%);
+}
+
+.editor-panel-right.is-closed {
+  transform: translateX(101%);
+}
+
+/* Abinha de puxar o painel escondido — sempre visível na borda. */
+.editor-handle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6vmin;
+  height: 16vmin;
+  background: rgba(10, 10, 12, 0.85);
+  border: 1px solid rgba(216, 203, 168, 0.28);
+  color: #d8cba8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.4vmin;
+  pointer-events: auto;
+  z-index: 7;
+  cursor: pointer;
+}
+
+.editor-handle-left {
+  left: 0;
+  border-left: 0;
+  border-radius: 0 1.4vmin 1.4vmin 0;
+}
+
+.editor-handle-right {
+  right: 0;
+  border-right: 0;
+  border-radius: 1.4vmin 0 0 1.4vmin;
+}
+
+.editor-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8vmin;
+  padding: 1.2vmin;
+  border-bottom: 1px solid rgba(216, 203, 168, 0.16);
+  flex: none;
+}
+
+.editor-panel-title {
+  font-family: "BoldsPixels", monospace;
+  font-size: 3.2vmin;
+  letter-spacing: 0.1em;
+  color: #d8cba8;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1vmin 1.2vmin 4vmin;
+}
+
+/* ---------- Pesquisa ---------- */
+
+.editor-search {
+  display: flex;
+  align-items: center;
+  gap: 0.8vmin;
+  padding: 0 1.2vmin 1.2vmin;
+  flex: none;
+}
+
+.editor-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 7vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.26);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f2eee2;
+  padding: 0 1.2vmin;
+  font-size: 3vmin;
+  font-family: inherit;
+}
+
+.editor-input:focus {
+  outline: none;
+  border-color: rgba(216, 203, 168, 0.7);
+}
+
+.editor-filters {
+  display: flex;
+  gap: 0.6vmin;
+  padding: 0 1.2vmin 1vmin;
+  flex: none;
+  flex-wrap: wrap;
+}
+
+/* ---------- Árvore / hierarquia ---------- */
+
+.editor-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8vmin;
+  width: 100%;
+  min-height: 7.2vmin;
+  padding: 0.6vmin 1vmin;
+  border-radius: 1vmin;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #ded8ca;
+  font-size: 3vmin;
+  text-align: left;
+  cursor: pointer;
+}
+
+.editor-tree-item:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.editor-tree-item.is-selected {
+  background: rgba(216, 203, 168, 0.18);
+  border-color: rgba(216, 203, 168, 0.55);
+  color: #fff8e6;
+}
+
+.editor-tree-caret {
+  width: 5.4vmin;
+  min-height: 5.4vmin;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.8vmin;
+  color: #9c9484;
+  font-size: 2.6vmin;
+}
+
+.editor-tree-caret.is-leaf {
+  opacity: 0.25;
+}
+
+.editor-tree-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-tree-badge {
+  flex: none;
+  font-size: 2.4vmin;
+  padding: 0.2vmin 0.8vmin;
+  border-radius: 0.7vmin;
+  background: rgba(255, 181, 69, 0.2);
+  color: #ffce85;
+  border: 1px solid rgba(255, 181, 69, 0.4);
+}
+
+.editor-tree-icon {
+  flex: none;
+  width: 4.4vmin;
+  text-align: center;
+  opacity: 0.8;
+  font-size: 2.9vmin;
+}
+
+.editor-tree-empty {
+  padding: 3vmin 1.4vmin;
+  opacity: 0.55;
+  font-size: 2.9vmin;
+  text-align: center;
+}
+
+/* ---------- Seções do inspetor ---------- */
+
+.editor-section {
+  border: 1px solid rgba(216, 203, 168, 0.16);
+  border-radius: 1.2vmin;
+  margin-bottom: 1.2vmin;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.editor-section-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8vmin;
+  width: 100%;
+  min-height: 7.4vmin;
+  padding: 0 1.2vmin;
+  background: rgba(255, 255, 255, 0.05);
+  border: 0;
+  color: #d8cba8;
+  font-family: "BoldsPixels", monospace;
+  font-size: 2.9vmin;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.editor-section-head .editor-caret {
+  margin-left: auto;
+  font-size: 2.6vmin;
+  opacity: 0.7;
+}
+
+.editor-section-body {
+  padding: 1.2vmin;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1vmin;
+}
+
+.editor-section.is-collapsed .editor-section-body {
+  display: none;
+}
+
+/* ---------- Campos ---------- */
+
+.editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vmin;
+}
+
+.editor-field-label {
+  font-size: 2.7vmin;
+  color: #a9a294;
+  letter-spacing: 0.04em;
+}
+
+.editor-field-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7vmin;
+}
+
+/* Campo numérico: [eixo arrastável] [-] [valor] [+] */
+.editor-axis {
+  flex: none;
+  width: 6.6vmin;
+  min-height: 7vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.24);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cfc7b4;
+  font-size: 2.9vmin;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  cursor: ew-resize;
+}
+
+.editor-axis.axis-x {
+  color: #ff8a94;
+  border-color: rgba(255, 95, 109, 0.45);
+}
+
+.editor-axis.axis-y {
+  color: #9dffae;
+  border-color: rgba(134, 255, 155, 0.45);
+}
+
+.editor-axis.axis-z {
+  color: #9ccbff;
+  border-color: rgba(111, 178, 255, 0.45);
+}
+
+.editor-axis.is-scrubbing {
+  background: rgba(216, 203, 168, 0.28);
+}
+
+.editor-number {
+  flex: 1;
+  min-width: 0;
+  min-height: 7vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.22);
+  background: rgba(0, 0, 0, 0.35);
+  color: #f4f0e4;
+  text-align: center;
+  font-size: 3vmin;
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 0 0.4vmin;
+}
+
+.editor-number:focus {
+  outline: none;
+  border-color: rgba(216, 203, 168, 0.7);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.editor-step {
+  flex: none;
+  width: 6.4vmin;
+  min-height: 7vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8e2d4;
+  font-size: 3.4vmin;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.editor-step:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Slider */
+.editor-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6vmin;
+  background: transparent;
+  touch-action: none;
+}
+
+.editor-slider::-webkit-slider-runnable-track {
+  height: 1.2vmin;
+  border-radius: 1vmin;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.editor-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 5.4vmin;
+  height: 5.4vmin;
+  margin-top: -2.1vmin;
+  border-radius: 50%;
+  background: #d8cba8;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.editor-slider::-moz-range-track {
+  height: 1.2vmin;
+  border-radius: 1vmin;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.editor-slider::-moz-range-thumb {
+  width: 5.4vmin;
+  height: 5.4vmin;
+  border-radius: 50%;
+  background: #d8cba8;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.editor-value-tag {
+  font-size: 2.7vmin;
+  color: #f0ead9;
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  min-width: 10vmin;
+  text-align: right;
+}
+
+/* Toggle */
+.editor-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1vmin;
+  min-height: 7.4vmin;
+  padding: 0 0.4vmin;
+  cursor: pointer;
+}
+
+.editor-toggle-track {
+  flex: none;
+  width: 11vmin;
+  height: 5.6vmin;
+  border-radius: 3vmin;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(216, 203, 168, 0.26);
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.editor-toggle-knob {
+  position: absolute;
+  top: 0.5vmin;
+  left: 0.6vmin;
+  width: 4.2vmin;
+  height: 4.2vmin;
+  border-radius: 50%;
+  background: #cfc7b4;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.editor-toggle.is-on .editor-toggle-track {
+  background: rgba(126, 214, 148, 0.45);
+  border-color: rgba(126, 214, 148, 0.8);
+}
+
+.editor-toggle.is-on .editor-toggle-knob {
+  transform: translateX(5vmin);
+  background: #eafff0;
+}
+
+/* Cor */
+.editor-color {
+  width: 11vmin;
+  height: 7vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.26);
+  background: transparent;
+  padding: 0.4vmin;
+}
+
+/* Select */
+.editor-select {
+  flex: 1;
+  min-height: 7vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.24);
+  background: rgba(0, 0, 0, 0.4);
+  color: #f0ead9;
+  font-size: 2.9vmin;
+  padding: 0 1vmin;
+  font-family: inherit;
+}
+
+/* Grade de texturas */
+.editor-texture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9vmin;
+}
+
+.editor-texture-item {
+  border: 1px solid rgba(216, 203, 168, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1vmin;
+  padding: 0.7vmin 0.4vmin;
+  color: #ded8ca;
+  font-size: 2.3vmin;
+  min-height: 8vmin;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-texture-item.is-active {
+  border-color: #d8cba8;
+  background: rgba(216, 203, 168, 0.22);
+  color: #fff8e6;
+}
+
+/* Texto auxiliar */
+.editor-note {
+  font-size: 2.5vmin;
+  color: #8f8878;
+  line-height: 1.35;
+}
+
+.editor-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 2.4vmin;
+  color: #8f8878;
+  word-break: break-all;
+}
+
+.editor-empty {
+  padding: 4vmin 2vmin;
+  text-align: center;
+  color: #8f8878;
+  font-size: 2.9vmin;
+  line-height: 1.5;
+}
+
+/* ---------- Controles de navegação ---------- */
+
+.editor-pad {
+  position: absolute;
+  left: 3vmin;
+  bottom: 3vmin;
+  width: 22vmin;
+  height: 22vmin;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  pointer-events: auto;
+  touch-action: none;
+  z-index: 6;
+}
+
+.editor-pad-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9vmin;
+  height: 9vmin;
+  margin-left: -4.5vmin;
+  margin-top: -4.5vmin;
+  border-radius: 50%;
+  background: rgba(216, 203, 168, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.editor-updown {
+  position: absolute;
+  left: 27vmin;
+  bottom: 3vmin;
+  display: flex;
+  flex-direction: column;
+  gap: 1vmin;
+  pointer-events: auto;
+  z-index: 6;
+}
+
+.editor-updown .editor-btn {
+  width: 12vmin;
+  min-height: 9.4vmin;
+  font-size: 3.6vmin;
+}
+
+/* Barra de ferramentas inferior */
+.editor-tools {
+  position: absolute;
+  right: 3vmin;
+  bottom: 3vmin;
+  display: flex;
+  align-items: center;
+  gap: 0.8vmin;
+  padding: 0.8vmin;
+  border-radius: 1.4vmin;
+  background: rgba(10, 10, 12, 0.82);
+  border: 1px solid rgba(216, 203, 168, 0.2);
+  pointer-events: auto;
+  z-index: 6;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 60%;
+}
+
+.editor-tools-divider {
+  width: 1px;
+  height: 6vmin;
+  background: rgba(216, 203, 168, 0.24);
+}
+
+/* Chip do objeto selecionado */
+.editor-selection-chip {
+  position: absolute;
+  top: 10.4vmin;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 46%;
+  padding: 0.8vmin 1.6vmin;
+  border-radius: 1.2vmin;
+  background: rgba(10, 10, 12, 0.85);
+  border: 1px solid rgba(216, 203, 168, 0.28);
+  color: #f0ead9;
+  font-size: 2.8vmin;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Aviso curto (salvo, desfeito, etc.) */
+.editor-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 16vmin;
+  transform: translateX(-50%) translateY(1vmin);
+  padding: 1vmin 2vmin;
+  border-radius: 1.2vmin;
+  background: rgba(10, 10, 12, 0.92);
+  border: 1px solid rgba(216, 203, 168, 0.35);
+  color: #f0ead9;
+  font-size: 2.9vmin;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 20;
+  white-space: nowrap;
+}
+
+.editor-toast.is-on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Caixa de confirmação ---------- */
+
+.editor-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 30;
+  padding: 4vmin;
+}
+
+.editor-modal-card {
+  width: 100%;
+  max-width: 78vmin;
+  background: rgba(14, 14, 16, 0.98);
+  border: 1px solid rgba(216, 203, 168, 0.32);
+  border-radius: 1.6vmin;
+  padding: 2.4vmin;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6vmin;
+}
+
+.editor-modal-title {
+  font-family: "BoldsPixels", monospace;
+  font-size: 3.4vmin;
+  letter-spacing: 0.08em;
+  color: #d8cba8;
+}
+
+.editor-modal-text {
+  font-size: 2.9vmin;
+  color: #cfc7b4;
+  line-height: 1.45;
+  /* Confirmacao de EXCLUIR vem em linhas curtas (quantas pecas saem, se
+     e objeto de historia, o aviso da colisao): cada uma na sua linha e
+     mais facil de ler no celular do que um paragrafo unico. */
+  white-space: pre-line;
+}
+
+.editor-modal-actions {
+  display: flex;
+  gap: 1vmin;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.editor-textarea {
+  width: 100%;
+  min-height: 24vmin;
+  max-height: 40vmin;
+  border-radius: 1vmin;
+  border: 1px solid rgba(216, 203, 168, 0.26);
+  background: rgba(0, 0, 0, 0.5);
+  color: #e8e2d4;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 2.4vmin;
+  padding: 1vmin;
+  resize: none;
+}
+
+/* ---------- Botão EDITOR do menu principal ---------- */
+
+/* Fica separado dos botões normais do jogo: um traço divisório e um
+   tratamento visual próprio deixam claro que é ferramenta de
+   desenvolvimento, não parte do jogo (ver menu/menu.js). */
+.main-menu-dev-separator {
+  width: 26vmin;
+  height: 1px;
+  margin: 1.6vmin 0 1.2vmin;
+  background: linear-gradient(
+    90deg,
+    rgba(216, 203, 168, 0),
+    rgba(216, 203, 168, 0.55),
+    rgba(216, 203, 168, 0)
+  );
+}
+
+.main-menu-button.is-dev-tool {
+  font-size: 2.6vmin;
+  letter-spacing: 0.22em;
+  color: #b9d8c4;
+  -webkit-text-stroke: 0.28vmin rgba(6, 14, 9, 0.85);
+  paint-order: stroke fill;
+  opacity: 0.92;
+}
+
+.main-menu-dev-hint {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.9vmin;
+  letter-spacing: 0.06em;
+  color: rgba(216, 203, 168, 0.65);
+  text-shadow: 0 0.2vmin 0.4vmin rgba(0, 0, 0, 0.9);
+  margin-top: 0.2vmin;
+}
+
+/* ---------- Excluidos (a ferramenta EXCLUIR) ----------
+   Objeto excluido sai da cena, mas continua na arvore da hierarquia,
+   riscado: e assim que ele e encontrado e restaurado depois. */
+
+.editor-tree-item.is-removed .editor-tree-label {
+  text-decoration: line-through;
+  color: #9a9086;
+}
+
+.editor-tree-item.is-removed .editor-tree-icon {
+  opacity: 0.45;
+}
+
+.editor-tree-badge.is-removed {
+  background: rgba(255, 110, 110, 0.18);
+  color: #ff9f96;
+  border-color: rgba(255, 110, 110, 0.45);
+}
+
+.editor-selection-chip.is-removed {
+  border-color: rgba(255, 110, 110, 0.5);
+  color: #ffcac4;
+}
+
+.editor-note.is-warn {
+  color: #ffb3aa;
+}

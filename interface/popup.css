@@ -1,0 +1,174 @@
+/* interface/popup.css
+ * -------------------------------------------------
+ * Casca visual compartilhada por todo pop-up do jogo (ver
+ * interface/popup.js): fundo escurecido, painel translucido e botao
+ * discreto "Fechar".
+ *
+ * Mesma paleta e a mesma formula de sempre — fundo rgba(5,4,8,.72),
+ * borda clara sutil de 1px, cantos de 1vmin, fonte BoldsPixels,
+ * amarelo #ffd447 nos titulos: exatamente o que a caixa de dialogo
+ * (dialogue/dialogue.css) e a tela de Configuracoes
+ * (menu/settings.css) ja usam. Todas as medidas em vmin, como no
+ * resto da interface, para escalar igual em qualquer aparelho na
+ * orientacao landscape do jogo.
+ * ------------------------------------------------- */
+
+@font-face {
+  font-family: "BoldsPixels";
+  src: url("../assets/fonts/BoldsPixels.ttf") format("truetype");
+  font-display: swap;
+}
+
+.game-popup-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Escurece a gameplay por tras sem esconde-la por completo — o
+     jogador continua vendo onde esta. */
+  background: rgba(2, 2, 4, 0.6);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+  touch-action: none;
+}
+
+.game-popup-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.game-popup-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 2.2vmin 2.6vmin 1.8vmin;
+
+  background: rgba(5, 4, 8, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1vmin;
+
+  /* Sobe de leve ao aparecer: o mesmo tipo de aparicao discreta do
+     resto da interface, sem nada de saltitante. */
+  transform: translateY(1.2vmin);
+  transition: transform 0.28s ease;
+}
+
+.game-popup-visible .game-popup-panel {
+  transform: translateY(0);
+}
+
+.game-popup-title {
+  margin: 0 0 1.6vmin;
+  font-family: "BoldsPixels", monospace;
+  font-size: 2.4vmin;
+  letter-spacing: 0.08em;
+  color: #ffd447;
+}
+
+.game-popup-body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.game-popup-footer {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.6vmin;
+}
+
+/* Botao "Fechar": discreto de proposito — mesma linguagem do botao
+   "PULAR TUDO" da caixa de dialogo (dialogue/dialogue.css) e do botao
+   "Interagir" do HUD (interface/hud.css). */
+.game-popup-close {
+  padding: 0.9vmin 2.4vmin;
+  border-radius: 1.2vmin;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: "BoldsPixels", monospace;
+  font-size: 1.9vmin;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.game-popup-close:active {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Pop-up da gaveta (interface/drawer-popup.js) ---------- */
+
+/* Painel pequeno de proposito: e uma gaveta com um item dentro, nao
+   uma tela de menu. Fica em cima do centro da tela, sem cobrir o
+   cenario inteiro. */
+.drawer-popup .game-popup-panel {
+  width: 46vmin;
+  max-width: 80%;
+}
+
+.drawer-popup-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1vmin;
+  max-height: 34vmin;
+  overflow-y: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.drawer-popup-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.6vmin;
+  box-sizing: border-box;
+  padding: 1.1vmin 1.4vmin;
+  text-align: left;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.6vmin;
+  cursor: pointer;
+}
+
+.drawer-popup-item:active {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+/* Miniatura do item: a propria arte da carta (a mesma textura do
+   modelo 3D), em pixel cru como o resto do jogo. */
+.drawer-popup-item-icon {
+  flex: 0 0 auto;
+  width: 5.4vmin;
+  height: 5.4vmin;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.drawer-popup-item-name {
+  font-family: "BoldsPixels", monospace;
+  font-size: 2.1vmin;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+
+.drawer-popup-empty {
+  padding: 1.6vmin 0.4vmin;
+  font-family: "BoldsPixels", monospace;
+  font-size: 1.9vmin;
+  color: rgba(255, 255, 255, 0.45);
+}

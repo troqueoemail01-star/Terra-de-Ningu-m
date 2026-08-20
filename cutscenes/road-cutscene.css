@@ -1,0 +1,77 @@
+/* cutscenes/road-cutscene.css
+ * -------------------------------------------------
+ * As tres camadas da cutscene de abertura na estrada (ver
+ * cutscenes/road-cutscene.js), todas DENTRO do #game-container - ou
+ * seja, dentro da mesma area 16:9 da gameplay, e nao na tela inteira.
+ * E por isso que a cutscene ja nasce com a vinheta, as scanlines e o
+ * letterbox do jogo por cima dela, sem nenhum ajuste (ver
+ * interface/layout.css).
+ *
+ * Este arquivo substituiu cutscenes/cutscene.css, que era a camada de
+ * tela cheia dos dois videos de introducao removidos.
+ * ------------------------------------------------- */
+
+/* 1) O canvas da cutscene: mesmas regras do #game-canvas da gameplay,
+ *    inclusive o upscale "quadriculado" que da o pixel gordo do PS1. Ele
+ *    e criado e destruido pelo JS - a gameplay usa o #game-canvas de
+ *    sempre, que continua intocado. */
+.road-cutscene-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* 2) A camada de preto que faz os dois fades pedidos (8 s entrando,
+ *    10 s saindo) e o preto em que a gameplay e montada no fim.
+ *
+ *    A DURACAO de cada fade NAO esta aqui de proposito: quem define e o
+ *    JS (fadeTo em road-cutscene.js), justamente porque sao tres
+ *    duracoes diferentes na mesma camada. Aqui ficam so a propriedade
+ *    animada e a curva - linear, porque um fade longo com aceleracao
+ *    parece "travar" no meio.
+ *
+ *    z-index 20: acima do canvas, da vinheta e das scanlines (z-index
+ *    ate 1) e do HUD (ate 3) - o mesmo valor do fade da mini cutscene do
+ *    telefone (ver cutscenes/phone-sequence.css). Fica ABAIXO da caixa
+ *    de dialogo? Nao: a caixa (z-index 10) so aparece com este overlay
+ *    em opacidade 0, entao a ordem nunca importa na pratica. */
+.road-cutscene-fade {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #000;
+  opacity: 1;
+  pointer-events: none;
+  transition-property: opacity;
+  transition-timing-function: linear;
+  transition-duration: 0ms;
+}
+
+/* 3) Aviso de toque: so aparece se o navegador ainda estiver bloqueando
+ *    o audio quando a cutscene for comecar (politica comum no mobile).
+ *    Mesmo visual discreto do aviso que o antigo player de video usava. */
+.road-cutscene-tap-prompt {
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4vmin;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: monospace;
+  font-size: 2.4vmin;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+.road-cutscene-tap-prompt-visible {
+  display: flex;
+}

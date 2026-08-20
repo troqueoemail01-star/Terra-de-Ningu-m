@@ -1,0 +1,147 @@
+/* menu/menu.css
+ * -------------------------------------------------
+ * Menu principal — primeira tela do jogo, exibida antes de
+ * qualquer cutscene, diálogo ou gameplay. Cobre a tela inteira,
+ * por cima de tudo o mais (mesma ideia de "camada" já usada em
+ * cutscenes/cutscene.css para a cutscene de introdução).
+ *
+ * Fundo: vídeo em loop (dois <video> alternados com crossfade
+ * suave entre o fim e o início, ver menu/menu.js). Botões:
+ * texto renderizado com a mesma fonte pixelada do resto do jogo
+ * (BoldsPixels, ver @font-face abaixo), sem placa/fundo — só as
+ * palavras, preenchimento cinza-claro com contorno ESCURO fino
+ * (estilo "gravado"), no tamanho e espaçamento da imagem de
+ * referência enviada.
+ *
+ * O vídeo é 16:9 (mesmo formato do jogo). Pra nunca esticar nem
+ * cortar o cenário em telas com outra proporção, o vídeo e os
+ * botões ficam dentro de um quadro travado em 16:9
+ * (.main-menu-frame) — exatamente a mesma fórmula/ideia já usada
+ * em interface/layout.css pro #game-container, com barras pretas
+ * (letterbox) preenchendo o resto da tela em vez de cortar ou
+ * distorcer a imagem.
+ * ------------------------------------------------- */
+
+/* Mesma fonte pixelada já usada em dialogue/dialogue.css — declarada
+   de novo aqui pra o menu não depender de outro arquivo CSS carregar
+   primeiro. O navegador reaproveita o mesmo arquivo de fonte. */
+@font-face {
+  font-family: "BoldsPixels";
+  src: url("../assets/fonts/BoldsPixels.ttf") format("truetype");
+  font-display: swap;
+}
+
+.main-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-menu-overlay.main-menu-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Trava a proporção 16:9 usando a restrição (vw ou vh) que for
+   menor — mesma técnica do #game-container em interface/layout.css. */
+.main-menu-frame {
+  position: relative;
+  width: 100vw;
+  height: 56.25vw; /* 100 / 16 * 9 */
+  max-height: 100vh;
+  max-width: 177.7778vh; /* 100 / 9 * 16 */
+  background: #000;
+  overflow: hidden;
+}
+
+/* Os dois vídeos ficam exatamente sobrepostos, preenchendo o
+   quadro 16:9 (sem cortar nem esticar, já que o quadro tem a
+   mesma proporção do vídeo); o crossfade entre eles (classe
+   abaixo) é o que disfarça o ponto em que o loop reinicia. */
+.main-menu-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.main-menu-video-visible {
+  opacity: 1;
+}
+
+/* Bloco dos botões — posição segue a referência de composição
+   original (coluna centralizada na parte inferior da tela). Fica
+   dentro do mesmo quadro 16:9 do vídeo, então permanece alinhado
+   ao cenário em qualquer proporção de tela. Sem largura fixa: o
+   bloco encolhe pra caber a linha mais larga (CONFIGURAÇÕES) e
+   "align-items: center" centraliza cada linha nela, exatamente
+   como no visual de referência (cada botão só tão largo quanto o
+   próprio texto, todos alinhados no mesmo eixo central). */
+.main-menu-buttons {
+  position: absolute;
+  left: 50%;
+  top: 50vmin;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3vmin;
+  transition: opacity 0.35s ease;
+}
+
+/* Aplicada ao tocar em "CONFIGURAÇÕES" (ver menu/menu.js): esconde os
+   botões do menu principal enquanto o painel de Configurações
+   (menu/settings.css) fica visível por cima do mesmo vídeo de fundo,
+   sem interromper o loop. */
+.main-menu-buttons-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Botão = só o texto, na fonte pixelada do jogo, sem placa nem
+   fundo (estilo da imagem de referência enviada): preenchimento
+   cinza-claro com um contorno ESCURO fino ao redor (não um
+   contorno claro) — é esse contraste escuro/claro que dá a
+   legibilidade "gravada" contra o céu e a grama vistos na
+   referência. Padding invisível (mesma cor de fundo transparente)
+   só pra manter uma área de toque confortável no celular, sem
+   alterar a aparência. */
+.main-menu-button {
+  display: block;
+  padding: 0.8vmin 2vmin;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s ease, filter 0.12s ease;
+
+  font-family: "BoldsPixels", monospace;
+  font-size: 7.4vmin;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  color: #c8c8c4;
+  -webkit-text-stroke: 0.22vmin #17150f;
+  paint-order: stroke fill;
+}
+
+.main-menu-button:active {
+  transform: scale(0.97);
+  filter: brightness(1.3);
+}

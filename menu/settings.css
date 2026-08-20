@@ -1,0 +1,204 @@
+/* menu/settings.css
+ * -------------------------------------------------
+ * Tela de Configurações — vive DENTRO do mesmo .main-menu-frame do
+ * menu principal (ver menu/menu.css), então não redeclara vídeo,
+ * quadro 16:9 nem vinheta: tudo isso já é herdado do próprio menu —
+ * este arquivo só estiliza o conteúdo próprio da tela (painel,
+ * seções, sliders, alternador de idioma, botão voltar).
+ *
+ * Paleta e fonte seguem o restante da interface:
+ * - Título "CONFIGURAÇÕES" e botão "VOLTAR": exatamente o mesmo
+ *   tratamento "gravado" (preenchimento cinza-claro + contorno
+ *   escuro) dos botões do menu principal (ver .main-menu-button em
+ *   menu/menu.css) — ficam direto sobre o vídeo, sem placa.
+ * - Painel de conteúdo (sliders, idioma): mesmo fundo translúcido
+ *   escuro + borda clara sutil já usado em dialogue/dialogue.css
+ *   (.dialogue-box), para dar legibilidade aos controles sobre o
+ *   vídeo em movimento sem se afastar da identidade já estabelecida.
+ * - Amarelo dos títulos de seção: mesmo tom usado no nome de quem
+ *   fala nos diálogos (.dialogue-name).
+ * ------------------------------------------------- */
+
+@font-face {
+  font-family: "BoldsPixels";
+  src: url("../assets/fonts/BoldsPixels.ttf") format("truetype");
+  font-display: swap;
+}
+
+.settings-panel {
+  position: absolute;
+  inset: 3.5vmin 6vmin;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2vmin;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.settings-panel-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.settings-title {
+  margin: 0;
+  font-family: "BoldsPixels", monospace;
+  font-size: 5.2vmin;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+
+  color: #c8c8c4;
+  -webkit-text-stroke: 0.2vmin #17150f;
+  paint-order: stroke fill;
+}
+
+/* Painel translúcido com o conteúdo de fato (mesma fórmula visual da
+   caixa de diálogo — ver dialogue/dialogue.css .dialogue-box).
+   overflow-y:auto + touch-action:pan-y são só uma rede de segurança
+   para telas muito baixas; no layout 16:9 padrão do jogo o conteúdo
+   cabe inteiro, sem precisar rolar. */
+.settings-scroll {
+  width: 100%;
+  max-width: 76vmin;
+  box-sizing: border-box;
+  padding: 2.2vmin 3vmin;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8vmin;
+  overflow-y: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+
+  background: rgba(5, 4, 8, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1vmin;
+}
+
+.settings-section-title {
+  margin: 0 0 1.1vmin;
+  font-family: "BoldsPixels", monospace;
+  font-size: 2.8vmin;
+  letter-spacing: 0.04em;
+  color: #ffd447;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.2vmin;
+  margin-bottom: 1.3vmin;
+}
+
+.settings-row:last-child {
+  margin-bottom: 0;
+}
+
+.settings-row-label {
+  flex: 0 0 auto;
+  font-family: "BoldsPixels", monospace;
+  font-size: 2.1vmin;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Slider totalmente customizado (sem nenhum estilo padrão do
+   navegador): trilha fina escura, preenchimento/alça clara com
+   contorno escuro fino — mesmo par de cores e o mesmo espírito "sem
+   suavização" do resto da estética PSX do jogo. */
+.settings-slider {
+  flex: 1 1 auto;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2.4vmin;
+  background: transparent;
+  cursor: pointer;
+}
+
+.settings-slider::-webkit-slider-runnable-track {
+  height: 0.6vmin;
+  background: rgba(200, 200, 196, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.settings-slider::-moz-range-track {
+  height: 0.6vmin;
+  background: rgba(200, 200, 196, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.8vmin;
+  height: 2.4vmin;
+  margin-top: -0.9vmin;
+  background: #c8c8c4;
+  border: 1px solid #17150f;
+}
+
+.settings-slider::-moz-range-thumb {
+  width: 1.8vmin;
+  height: 2.4vmin;
+  background: #c8c8c4;
+  border: 1px solid #17150f;
+  border-radius: 0;
+}
+
+.settings-lang-toggle {
+  display: flex;
+  gap: 1.2vmin;
+}
+
+.settings-lang-option {
+  flex: 1 1 0;
+  padding: 1vmin 0.5vmin;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  font-family: "BoldsPixels", monospace;
+  font-size: 2vmin;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+
+.settings-lang-option-active {
+  background: #c8c8c4;
+  border-color: #c8c8c4;
+  color: #17150f;
+}
+
+.settings-back-button {
+  flex: 0 0 auto;
+  padding: 0.8vmin 2vmin;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s ease, filter 0.12s ease;
+
+  font-family: "BoldsPixels", monospace;
+  font-size: 4.8vmin;
+  line-height: 1;
+  letter-spacing: 0.05em;
+
+  color: #c8c8c4;
+  -webkit-text-stroke: 0.2vmin #17150f;
+  paint-order: stroke fill;
+}
+
+.settings-back-button:active {
+  transform: scale(0.97);
+  filter: brightness(1.3);
+}

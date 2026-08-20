@@ -1,0 +1,165 @@
+/* interface/hud.css
+ * -------------------------------------------------
+ * Aparência discreta e semitransparente para não quebrar
+ * o clima sombrio do jogo. Unidades em vmin para que a
+ * interface escale de forma consistente em qualquer
+ * aparelho.
+ * ------------------------------------------------- */
+
+/* Esconde o HUD inteiro de uma vez (ver interface/hud.js ->
+   setVisible) — usado durante cutscenes em engine, como a mini
+   cutscene de entrada, para nenhum controle ficar visível nem
+   receber toque enquanto o jogador não tem o controle do personagem. */
+.hud-hidden {
+  display: none;
+}
+
+.hud-look-zone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 2;
+  touch-action: none;
+}
+
+/* ---------- Mira central (reticle) ---------- */
+.hud-crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.6vmin;
+  height: 0.6vmin;
+  margin-left: -0.3vmin;
+  margin-top: -0.3vmin;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0.4vmin rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---------- Analógico virtual (movimento) ---------- */
+.hud-joystick-base {
+  position: absolute;
+  left: 5vmin;
+  bottom: 5vmin;
+  width: 22vmin;
+  height: 22vmin;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  z-index: 3;
+  touch-action: none;
+}
+
+.hud-joystick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9vmin;
+  height: 9vmin;
+  margin-left: -4.5vmin;
+  margin-top: -4.5vmin;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+/* ---------- Botão Interagir ---------- */
+.hud-interact-button {
+  position: absolute;
+  right: 6vmin;
+  bottom: 9vmin;
+  min-width: 15vmin;
+  padding: 1.6vmin 2vmin;
+  border-radius: 1.6vmin;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: monospace;
+  font-size: 2.1vmin;
+  letter-spacing: 0.05em;
+  z-index: 3;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hud-interact-button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Inventário ---------- */
+.hud-inventory {
+  position: absolute;
+  left: 50%;
+  bottom: 3.5vmin;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.4vmin;
+  z-index: 3;
+}
+
+/* Cada slot agora é um <button> (ver interface/inventory.js), para
+   receber toque de verdade quando tiver um item dentro — com todo o
+   estilo padrão de botão do navegador zerado, para continuar
+   EXATAMENTE com a mesma cara de quadradinho discreto de antes. */
+.hud-inventory-slot {
+  position: relative;
+  width: 8vmin;
+  height: 8vmin;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.6vmin;
+}
+
+/* Slot ocupado: fundo um tico mais presente, só para se distinguir
+   dos vazios, sem chamar atenção. */
+.hud-inventory-slot-filled {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.hud-inventory-slot-filled:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Item em uso (hoje: a carta equipada na mão direita) — contorno
+   amarelo discreto, o mesmo #ffd447 do nome de quem fala nos
+   diálogos (ver dialogue/dialogue.css). */
+.hud-inventory-slot-active {
+  border-color: rgba(255, 212, 71, 0.75);
+  box-shadow: inset 0 0 0.8vmin rgba(255, 212, 71, 0.22);
+}
+
+/* Piscada curta de "item novo" logo depois que algo entra no
+   inventário (a classe é removida sozinha pelo JS). */
+.hud-inventory-slot-new {
+  animation: hud-inventory-pop 0.4s ease-in-out 3;
+}
+
+@keyframes hud-inventory-pop {
+  50% {
+    background: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* Ícone do item: a própria arte da carta (a mesma textura usada pelo
+   modelo 3D), em pixel cru como o resto do jogo. */
+.hud-inventory-icon {
+  position: absolute;
+  inset: 0.7vmin;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  pointer-events: none;
+}

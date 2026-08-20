@@ -1,0 +1,31 @@
+/* cutscenes/phone-sequence.css
+ * -------------------------------------------------
+ * Camada de fade (preto) usada pela mini cutscene do telefone (ver
+ * cutscenes/phone-sequence.js). Cobre só o #game-container (a mesma
+ * área 16:9 da gameplay, não a tela inteira) — mesmo princípio da
+ * vinheta/scanlines em interface/layout.css e da caixa de diálogo em
+ * dialogue/dialogue.css, que também ficam dentro desse container.
+ *
+ * Uma única duração de transição serve tanto para o fade-in (tela
+ * escurecendo, telefone discando/chamando) quanto para o fade-out
+ * (ligação atendida, tela volta ao normal) — o JS só alterna o valor
+ * de "opacity" entre 0 e 1, nessa ordem (ver FADE_MS em
+ * phone-sequence.js — os dois valores precisam bater). Bem mais
+ * rápida que a versão anterior (2.75s por metade): quem preenche o
+ * tempo em que a tela fica preta agora é a duração real do áudio de
+ * discagem+toque (ver audio/phone-audio.js), não o fade em si — o
+ * fade só precisa ser rápido e suave nas duas pontas.
+ * ------------------------------------------------- */
+
+.phone-sequence-overlay {
+  position: absolute;
+  inset: 0;
+  /* Acima do canvas/vinheta/scanlines (z-index até 1) e do HUD
+     (z-index até 3) — embora ambos já fiquem escondidos/travados
+     durante a sequência inteira (ver phone-sequence.js). */
+  z-index: 20;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
